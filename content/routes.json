@@ -1,0 +1,686 @@
+[
+ {
+  "route": "/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/about/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/architectural-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/bim-coordination/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/bim-execution-plan/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/bim-management/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/bim-modeling/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/bim-qa-qc/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/cad-to-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/clash-detection/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/infrastructure-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/interior-fitout/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/mep-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/rebar-detailing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/revit-family-creation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/scan-to-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/shop-drawings/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-services/structural-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/dedicated-teams/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/long-term/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/mobilization/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/onsite/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/outsourcing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/remote/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/staff-augmentation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/technical-recruitment/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/temporary/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/bim-staffing/workforce-continuity/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/book-consultation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/careers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/abu-dhabi-government-project/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/adnoc-petrol-station/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/airport-and-transport-infrastructure-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/apartment-and-multi-residential-interior-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/as-built-bim-hospital-and-healthcare-facility/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/bridge-and-flyover-structural-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/commercial-and-retail-landscape-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/commercial-scan-to-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/dubai-creek-residence-plots-17-19/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/electrical-bim-modeling-retail-and-shopping-centre/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/enoc-staff-accommodation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/expo-2020-al-wasl-plaza/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/expo-2020-police-fire-point-buildings/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/fire-protection-bim-mixed-use-development/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/ghadan-21-e25-streetscape/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/high-rise-residential-tower-bim-modeling/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/hotel-mep-coordination/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/hotel-resort-landscape/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/hvac-and-mechanical-bim-commercial-office-building/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/ibn-battuta-metro-station-extension/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/infrastructure-landscape-and-streetscape-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/jazan-igcc-sea-water-system/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/luxury-hotel-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/luxury-hotel-interior-bim-modeling/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/masterplan-site-infrastructure-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/mep-bim-modeling-high-rise-residential-tower/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/mep-bim-services-villas-and-low-rise-residential/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/mixed-use-commercial-building-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/museum-of-the-future-jet-link-bridge/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/public-park-and-recreational-landscape-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/rebar-detailing-and-structural-quantity-takeoff/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/reem-mall-abu-dhabi/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/residential-tower-structure/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/residential-villa-community/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/residential-villa-interior-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/restaurant-and-fandb-outlet-bim-modeling/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/restaurant-interior-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/retail-and-showroom-interior-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/road-highway-corridor/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/scan-to-bim-retail-space-refurbishment/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/scan-to-bim-villa-renovation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/steel-structure-detailing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/structural-bim-hotel-and-hospitality-development/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/utility-and-underground-services-bim/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/case-studies/villa-landscape-package/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/contact/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/bim-automation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/digital-twins/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/dynamo-automation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/revit-automation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/digital-engineering/workflow-automation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/architectural-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/bim-architects/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/bim-automation-specialists/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/bim-coordinators/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/bim-managers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/bim-modelers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/cad-draftsmen/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/civil-3d-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/electrical-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/infrastructure-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/interior-bim-architects/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/landscape-bim-architects/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/mechanical-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/mep-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/plumbing-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/rebar-detailers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/scan-to-bim-specialists/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/engineering-staffing/structural-bim-engineers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/expertise/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/airports/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/commercial/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/data-centers/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/education/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/healthcare/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/high-rise-buildings/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/hospitality/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/industrial/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/interior-fitout/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/rail-metro/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/residential/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/industries/roads-infrastructure/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/aec-workforce/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/aec-workforce/bim-coordinator-vs-bim-manager/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/aec-workforce/dedicated-remote-bim-team/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/aec-workforce/infrastructure-bim-staffing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/ai-automation/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/ai-automation/ai-in-bim-coordination/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/bim-outsourcing-saudi-arabia/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/bim-staffing-vs-outsourcing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/choose-bim-staffing-company/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/hire-bim-engineers-dubai/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-staffing/onsite-vs-remote-bim-staffing/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-standards/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-standards/bim-execution-plan-guide/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-standards/iso-19650-bim-delivery/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-technology/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/bim-technology/revit-skills-bim-architect/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/technical-guides/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/technical-guides/bim-engineer-technical-assessment/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/insights/technical-guides/reduce-bim-coordination-rework/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/abu-dhabi/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/ajman/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/australia/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/bahrain/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/dubai/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/europe/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/kuwait/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/oman/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/qatar/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/saudi-arabia/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/sharjah/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/singapore/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/uae/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/united-kingdom/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/locations/united-states/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/our-process/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/quality-assurance/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/request-talent/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/architecture/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/bim-management/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/cad-drafting/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/infrastructure/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/mep/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/talent-pool/structure/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/technical-assurance/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/testimonials/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/verified-talent/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/verified-talent/competency-passport/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/verified-talent/technical-assessment/",
+  "lastmod": "2026-11-21"
+ },
+ {
+  "route": "/why-engisoft/",
+  "lastmod": "2026-11-21"
+ }
+]

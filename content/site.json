@@ -1,0 +1,2156 @@
+{
+ "menu": [
+  {
+   "label": "BIM Staffing",
+   "href": "/bim-staffing/",
+   "columns": [
+    {
+     "heading": "Staffing models",
+     "links": [
+      {
+       "label": "Onsite BIM Staffing",
+       "href": "/bim-staffing/onsite/"
+      },
+      {
+       "label": "Remote BIM Staffing",
+       "href": "/bim-staffing/remote/"
+      },
+      {
+       "label": "BIM Resource Outsourcing",
+       "href": "/bim-staffing/outsourcing/"
+      },
+      {
+       "label": "Dedicated BIM Teams",
+       "href": "/bim-staffing/dedicated-teams/"
+      },
+      {
+       "label": "BIM Staff Augmentation",
+       "href": "/bim-staffing/staff-augmentation/"
+      },
+      {
+       "label": "BIM Workforce Mobilization",
+       "href": "/bim-staffing/mobilization/"
+      },
+      {
+       "label": "BIM Workforce Continuity",
+       "href": "/bim-staffing/workforce-continuity/"
+      },
+      {
+       "label": "Temporary BIM Staffing",
+       "href": "/bim-staffing/temporary/"
+      },
+      {
+       "label": "Long-Term BIM Staffing",
+       "href": "/bim-staffing/long-term/"
+      },
+      {
+       "label": "BIM Technical Recruitment",
+       "href": "/bim-staffing/technical-recruitment/"
+      }
+     ]
+    },
+    {
+     "heading": "Talent",
+     "links": [
+      {
+       "label": "Engineering Staffing",
+       "href": "/engineering-staffing/"
+      },
+      {
+       "label": "Talent Pool",
+       "href": "/talent-pool/"
+      },
+      {
+       "label": "Verified Talent",
+       "href": "/verified-talent/"
+      },
+      {
+       "label": "Technical Assurance",
+       "href": "/technical-assurance/"
+      },
+      {
+       "label": "Request BIM Professionals",
+       "href": "/request-talent/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Talent Pool",
+   "href": "/talent-pool/"
+  },
+  {
+   "label": "BIM Services",
+   "href": "/bim-services/",
+   "columns": [
+    {
+     "heading": "BIM services",
+     "links": [
+      {
+       "label": "BIM Modeling",
+       "href": "/bim-services/bim-modeling/"
+      },
+      {
+       "label": "BIM Coordination",
+       "href": "/bim-services/bim-coordination/"
+      },
+      {
+       "label": "BIM Management",
+       "href": "/bim-services/bim-management/"
+      },
+      {
+       "label": "Scan-to-BIM",
+       "href": "/bim-services/scan-to-bim/"
+      },
+      {
+       "label": "Architectural BIM",
+       "href": "/bim-services/architectural-bim/"
+      },
+      {
+       "label": "Structural BIM",
+       "href": "/bim-services/structural-bim/"
+      },
+      {
+       "label": "MEP BIM",
+       "href": "/bim-services/mep-bim/"
+      },
+      {
+       "label": "Infrastructure BIM",
+       "href": "/bim-services/infrastructure-bim/"
+      }
+     ]
+    },
+    {
+     "heading": "",
+     "links": [
+      {
+       "label": "Shop Drawings",
+       "href": "/bim-services/shop-drawings/"
+      },
+      {
+       "label": "Rebar Detailing",
+       "href": "/bim-services/rebar-detailing/"
+      },
+      {
+       "label": "Interior Fit-Out & Joinery Drawings",
+       "href": "/bim-services/interior-fitout/"
+      },
+      {
+       "label": "BIM QA/QC",
+       "href": "/bim-services/bim-qa-qc/"
+      },
+      {
+       "label": "BIM Execution Planning",
+       "href": "/bim-services/bim-execution-plan/"
+      },
+      {
+       "label": "BIM Clash Detection",
+       "href": "/bim-services/clash-detection/"
+      },
+      {
+       "label": "Revit Family Creation",
+       "href": "/bim-services/revit-family-creation/"
+      },
+      {
+       "label": "CAD to BIM Conversion",
+       "href": "/bim-services/cad-to-bim/"
+      }
+     ]
+    },
+    {
+     "heading": "Digital engineering",
+     "links": [
+      {
+       "label": "Digital Engineering",
+       "href": "/digital-engineering/"
+      },
+      {
+       "label": "BIM Automation",
+       "href": "/digital-engineering/bim-automation/"
+      },
+      {
+       "label": "Revit Automation",
+       "href": "/digital-engineering/revit-automation/"
+      },
+      {
+       "label": "Dynamo Development",
+       "href": "/digital-engineering/dynamo-automation/"
+      },
+      {
+       "label": "Engineering Workflow Automation",
+       "href": "/digital-engineering/workflow-automation/"
+      },
+      {
+       "label": "Digital Twin Solutions",
+       "href": "/digital-engineering/digital-twins/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Industries",
+   "href": "/industries/"
+  },
+  {
+   "label": "Case Studies",
+   "href": "/case-studies/"
+  },
+  {
+   "label": "Insights",
+   "href": "/insights/"
+  },
+  {
+   "label": "Contact",
+   "href": "/contact/"
+  }
+ ],
+ "sprite": "<svg width=\"0\" height=\"0\" style=\"position:absolute\" aria-hidden=\"true\"><defs><symbol id=\"wm\" viewBox=\"0 0 725 128\"><path fill-rule=\"evenodd\" d=\"M8.0 15.8L7.0 16.5L6.8 17.0L6.8 110.0L7.0 110.5L8.0 111.2L78.0 111.1L79.0 110.7L79.3 110.0L79.1 94.0L78.0 93.6L29.0 93.6L28.0 93.4L27.7 93.0L27.6 92.0L27.6 71.0L28.0 70.4L29.0 70.1L30.0 70.1L73.0 70.2L73.4 70.0L74.0 69.0L74.0 55.0L73.0 53.9L29.0 54.0L28.0 53.6L27.6 53.0L27.7 34.0L28.0 33.6L29.0 33.4L77.0 33.4L77.9 33.0L78.1 32.0L78.0 16.8L77.0 15.8ZM101.0 15.8L99.9 17.0L100.0 110.2L101.0 111.2L118.0 111.1L119.0 111.1L119.4 110.0L119.4 49.0L119.7 48.0L120.0 47.8L159.0 110.4L160.0 111.1L179.0 111.2L180.0 110.9L180.3 110.0L180.3 17.0L180.0 16.1L179.0 15.8L162.0 15.8L161.0 16.5L160.8 17.0L160.8 77.0L161.0 79.0L160.0 79.3L121.0 16.5L120.0 15.8ZM242.0 13.9L237.0 14.8L230.0 16.9L226.0 18.7L221.0 21.7L217.0 24.9L213.9 28.0L210.7 32.0L207.7 37.0L205.8 41.0L203.7 47.0L202.7 51.0L201.8 57.0L201.5 66.0L201.8 71.0L202.8 77.0L203.9 81.0L206.0 86.7L208.7 92.0L210.6 95.0L214.7 100.0L218.0 103.1L224.0 107.3L228.0 109.3L233.0 111.2L237.0 112.3L242.0 113.1L245.0 113.3L252.0 113.2L257.0 112.3L262.0 110.4L266.0 108.2L271.0 104.1L274.0 100.9L274.7 102.0L275.9 108.0L276.4 110.0L277.0 111.1L289.0 111.2L289.7 110.0L289.7 61.0L289.5 60.0L289.0 59.7L256.0 59.7L251.0 59.7L250.0 60.0L249.8 61.0L249.8 74.0L250.0 75.0L251.0 75.3L270.0 75.3L270.8 76.0L270.4 79.0L269.3 83.0L267.3 87.0L264.0 90.7L262.0 92.3L260.0 93.5L255.0 95.2L249.0 95.8L246.0 95.8L242.0 95.3L239.0 94.4L237.0 93.5L235.0 92.5L232.0 90.2L229.0 86.9L227.6 85.0L226.0 82.0L223.8 76.0L222.7 71.0L222.3 64.0L222.6 57.0L223.6 52.0L224.5 49.0L226.5 44.0L227.7 42.0L230.0 39.0L232.0 36.9L235.0 34.6L237.0 33.5L242.0 31.7L244.0 31.4L250.0 31.2L254.0 31.8L259.0 33.8L263.1 37.0L265.5 40.0L267.5 44.0L268.0 45.8L269.0 47.2L287.0 47.2L288.1 47.0L288.3 46.0L287.2 41.0L286.2 38.0L284.0 33.1L282.0 30.0L280.0 27.4L277.7 25.0L274.0 21.7L271.0 19.7L267.0 17.6L262.0 15.7L259.0 14.8L252.0 13.8L246.0 13.7ZM315.0 15.8L314.0 16.4L313.8 17.0L313.8 110.0L314.0 110.6L315.0 111.2L333.0 111.1L334.0 111.2L334.6 110.0L334.6 17.0L334.0 15.8ZM387.0 13.9L382.0 14.7L378.0 15.8L371.0 18.8L368.0 20.7L365.2 23.0L362.0 26.4L359.6 30.0L358.7 32.0L357.9 34.0L356.9 39.0L356.8 45.0L358.0 51.0L359.8 55.0L363.0 59.0L367.0 62.3L370.0 64.1L375.0 66.3L380.0 68.1L401.0 73.6L404.0 74.6L408.0 76.6L410.0 78.2L411.7 80.0L412.4 81.0L413.2 83.0L413.4 85.0L413.3 87.0L412.3 90.0L410.8 92.0L409.0 93.6L406.0 95.3L403.0 96.3L398.0 97.1L395.0 97.3L392.0 97.1L387.0 96.4L384.0 95.4L382.0 94.4L379.0 92.3L376.8 90.0L375.5 88.0L374.6 86.0L373.7 82.0L373.6 80.0L373.0 79.6L354.0 79.7L353.6 80.0L353.5 81.0L353.7 84.0L354.8 90.0L356.9 95.0L358.6 98.0L361.0 101.0L365.4 105.0L370.1 108.0L373.0 109.4L378.0 111.2L382.0 112.2L387.0 113.0L394.0 113.4L401.0 113.1L407.0 112.2L411.0 111.1L418.0 108.3L420.0 107.1L424.0 104.3L428.0 100.0L429.4 98.0L431.4 94.0L432.2 92.0L433.2 88.0L433.4 81.0L433.2 78.0L432.2 74.0L430.3 70.0L428.3 67.0L426.4 65.0L425.0 63.7L421.0 60.9L417.0 58.8L411.0 56.6L394.0 52.3L384.0 49.2L380.0 47.2L377.8 45.0L376.9 42.0L376.8 40.0L377.5 37.0L379.0 34.5L381.0 32.6L385.0 30.6L391.0 29.7L395.0 29.9L399.0 30.5L402.0 31.5L404.0 32.6L406.0 34.2L408.3 37.0L409.2 39.0L409.9 43.0L410.4 44.0L411.0 44.3L429.0 44.3L430.1 44.0L430.3 43.0L430.1 40.0L429.1 35.0L428.1 32.0L426.0 28.2L424.4 26.0L421.6 23.0L419.0 20.8L416.0 19.0L411.0 16.7L404.0 14.7L396.0 13.7L392.0 13.6ZM490.0 13.9L484.0 14.8L481.0 15.6L478.0 16.6L473.0 18.8L467.0 22.7L463.3 26.0L458.8 31.0L456.8 34.0L454.0 39.1L452.7 42.0L450.7 48.0L449.7 53.0L448.9 61.0L448.9 67.0L449.5 73.0L450.9 80.0L452.6 85.0L454.9 90.0L459.0 96.4L462.2 100.0L467.0 104.4L471.0 107.0L475.0 109.2L480.0 111.1L484.0 112.2L491.0 113.2L501.0 113.1L507.0 112.2L511.0 111.1L516.0 109.2L520.0 107.2L523.0 105.2L527.0 102.0L530.0 99.0L533.2 95.0L535.1 92.0L537.0 88.5L539.3 83.0L540.3 80.0L541.2 76.0L542.1 69.0L542.3 62.0L542.1 58.0L541.1 51.0L540.1 47.0L537.1 39.0L536.2 37.0L533.1 32.0L530.0 28.2L526.9 25.0L523.0 21.8L520.0 19.9L516.0 17.8L511.0 15.9L507.0 14.8L501.0 13.8L494.0 13.7ZM488.6 32.0L490.0 31.6L494.0 31.2L498.0 31.2L501.0 31.6L505.0 32.7L509.0 34.7L512.9 38.0L516.1 42.0L518.2 46.0L520.2 52.0L521.4 59.0L521.5 64.0L521.3 69.0L520.3 75.0L518.3 81.0L516.2 85.0L511.9 90.0L509.0 92.4L507.0 93.4L505.0 94.3L502.6 95.0L501.0 95.4L497.0 95.8L494.0 95.8L490.0 95.4L486.0 94.2L482.0 92.2L478.2 89.0L475.6 86.0L473.8 83.0L472.5 80.0L470.6 74.0L469.7 67.0L469.6 61.0L470.7 53.0L472.6 47.0L473.9 44.0L475.7 41.0L479.0 37.3L481.0 35.5L484.0 33.6ZM564.0 15.9L563.5 17.0L563.5 110.0L563.9 111.0L583.0 111.2L584.0 110.8L584.3 110.0L584.2 73.0L584.5 72.0L585.0 71.6L623.0 71.6L624.0 71.4L624.3 71.0L624.2 66.0L624.1 56.0L623.0 55.6L585.0 55.6L584.3 55.0L584.2 54.0L584.3 34.0L585.0 33.4L629.0 33.4L630.0 33.2L630.3 32.0L630.4 17.0L630.0 16.1L629.0 15.9ZM643.0 15.8L642.5 16.0L641.8 17.0L642.0 33.0L643.0 33.4L669.0 33.4L670.0 33.5L670.5 34.0L670.5 110.0L670.9 111.0L690.0 111.1L691.0 110.9L691.4 110.0L691.3 85.0L691.3 34.0L692.0 33.4L719.0 33.4L719.6 33.0L719.8 32.0L719.8 17.0L719.2 16.0Z\"/></symbol><symbol id=\"mk\" viewBox=\"0 0 100 100\"><path d=\"M8 8H92L79 30H30V70H66L53 92H8Z\"/><path fill=\"#E57126\" d=\"M38 39H74L62 61H38Z\"/></symbol></defs></svg>",
+ "footGrid": "<div class=\"foot-grid\">\n    <div class=\"about\"><p>Beyond BIM staffing. Verified talent. Assured performance.</p></div>\n    <div><h4>Explore</h4><a href=\"/about/\">About</a><a href=\"/why-engisoft/\">Why ENGISOFT</a><a href=\"/expertise/\">Our Expertise</a><a href=\"/quality-assurance/\">Our Quality Standards</a><a href=\"/our-process/\">Our Delivery Process</a><a href=\"/verified-talent/\">Verified Talent</a><a href=\"/technical-assurance/\">Technical Assurance</a><a href=\"/digital-engineering/\">Digital Engineering</a><a href=\"/industries/\">Industries</a><a href=\"/case-studies/\">Case Studies</a><a href=\"/insights/\">Insights</a><a href=\"/testimonials/\">Testimonials</a><a href=\"/careers/\">Careers</a><a href=\"/book-consultation/\">Book a Consultation</a><a href=\"/request-talent/\">Request BIM Professionals</a><a href=\"/contact/\">Contact</a></div>\n    <div><h4><a href=\"/bim-staffing/\">BIM Staffing</a></h4><a href=\"/bim-staffing/onsite/\">Onsite BIM Staffing</a><a href=\"/bim-staffing/remote/\">Remote BIM Staffing</a><a href=\"/bim-staffing/outsourcing/\">BIM Resource Outsourcing</a><a href=\"/bim-staffing/dedicated-teams/\">Dedicated BIM Teams</a><a href=\"/bim-staffing/staff-augmentation/\">BIM Staff Augmentation</a><a href=\"/bim-staffing/mobilization/\">BIM Workforce Mobilization</a><a href=\"/bim-staffing/workforce-continuity/\">BIM Workforce Continuity</a><a href=\"/bim-staffing/temporary/\">Temporary BIM Staffing</a><a href=\"/bim-staffing/long-term/\">Long-Term BIM Staffing</a><a href=\"/bim-staffing/technical-recruitment/\">BIM Technical Recruitment</a><a href=\"/engineering-staffing/\">Engineering Staffing</a></div>\n    <div><h4><a href=\"/bim-services/\">BIM Services</a></h4><a href=\"/bim-services/bim-coordination/\">BIM Coordination</a><a href=\"/bim-services/scan-to-bim/\">Scan-to-BIM</a><a href=\"/bim-services/architectural-bim/\">Architectural BIM</a><a href=\"/bim-services/structural-bim/\">Structural BIM</a><a href=\"/bim-services/mep-bim/\">MEP BIM</a><a href=\"/bim-services/infrastructure-bim/\">Infrastructure BIM</a></div>\n    <div><h4><a href=\"/locations/\">Locations</a></h4><a href=\"/locations/uae/\">UAE</a><a href=\"/locations/dubai/\">Dubai</a><a href=\"/locations/abu-dhabi/\">Abu Dhabi</a><a href=\"/locations/sharjah/\">Sharjah</a><a href=\"/locations/ajman/\">Ajman</a><a href=\"/locations/saudi-arabia/\">Saudi Arabia</a><a href=\"/locations/qatar/\">Qatar</a><a href=\"/locations/united-kingdom/\">United Kingdom</a><a href=\"/locations/united-states/\">United States</a><a href=\"/locations/bahrain/\">Bahrain</a><a href=\"/locations/oman/\">Oman</a><a href=\"/locations/kuwait/\">Kuwait</a><a href=\"/locations/australia/\">Australia</a><a href=\"/locations/singapore/\">Singapore</a><a href=\"/locations/europe/\">Europe</a></div>\n    <address><h4>Studio</h4><span>Office 608, Apricot Tower</span><span>Dubai Silicon Oasis, UAE</span><a href=\"mailto:enquiry@engisoftengineering.com\">enquiry@engisoftengineering.com</a><a href=\"tel:+97143209277\">+971 4 320 9277</a><a href=\"https://wa.me/971588672901\" target=\"_blank\" rel=\"noopener\">Chat on WhatsApp</a><div class=\"social\"><a href=\"https://www.linkedin.com/company/14517437/\" target=\"_blank\" rel=\"noopener\">LinkedIn</a><a href=\"https://www.instagram.com/engisoft.engineering/\" target=\"_blank\" rel=\"noopener\">Instagram</a><a href=\"https://www.facebook.com/Global.BIM.Leader\" target=\"_blank\" rel=\"noopener\">Facebook</a><a href=\"https://twitter.com/ENGISOFTDUBAI\" target=\"_blank\" rel=\"noopener\">X</a></div></address>\n  </div>",
+ "legal": "<span>&copy; ENGISOFT Engineering</span><span>Sat–Thu 09:00–18:00 GST</span><span>Media: Pexels License &amp; ENGISOFT footage</span>",
+ "ctaButtons": "<a class=\"btn\" href=\"/request-talent/\">Request BIM professionals <i aria-hidden=\"true\">&#8599;</i></a><a class=\"btn ghost\" href=\"tel:+971588672901\">+971 58 867 2901</a>",
+ "eswp": {
+  "assets": "assets/",
+  "seq": "assets/seq/hero/",
+  "ajax": "",
+  "email": "enquiry@engisoftengineering.com"
+ },
+ "notFound": {
+  "title": "Page not found | ENGISOFT Engineering",
+  "main": "\n<section class=\"coal pad e404\" style=\"min-height:100svh;display:flex;align-items:center;padding-top:clamp(130px,16vh,190px)\">\n  <div class=\"wrap bimx\" style=\"width:100%\">\n    <div>\n      <p class=\"lab\">Error 404 · Element not found</p>\n      <h1 class=\"h1\" style=\"margin:22px 0 26px\">This page is <em>not in the model.</em></h1>\n      <p class=\"lead\">The link may be old, or the page has moved. Everything ENGISOFT delivers is still one click away.</p>\n      <div style=\"display:flex;gap:12px;flex-wrap:wrap;margin-top:34px\">\n        <a class=\"btn\" href=\"/\">Back to home <i aria-hidden=\"true\">&#8599;</i></a>\n        <a class=\"btn ghost\" href=\"/case-studies/\">See case studies</a>\n      </div>\n            <p class=\"lab\" style=\"margin:46px 0 4px\">Popular services</p>\n      <ul class=\"rel e404-links\"><li><a href=\"/bim-services/bim-modeling/\" style=\"display:contents\"><b>BIM Modeling</b><span class=\"l\">&rarr;</span></a></li><li><a href=\"/bim-services/bim-coordination/\" style=\"display:contents\"><b>BIM Coordination</b><span class=\"l\">&rarr;</span></a></li><li><a href=\"/bim-services/bim-management/\" style=\"display:contents\"><b>BIM Management</b><span class=\"l\">&rarr;</span></a></li><li><a href=\"/bim-services/scan-to-bim/\" style=\"display:contents\"><b>Scan-to-BIM</b><span class=\"l\">&rarr;</span></a></li><li><a href=\"/bim-services/architectural-bim/\" style=\"display:contents\"><b>Architectural BIM</b><span class=\"l\">&rarr;</span></a></li><li><a href=\"/bim-services/structural-bim/\" style=\"display:contents\"><b>Structural BIM</b><span class=\"l\">&rarr;</span></a></li></ul>\n          </div>\n    <div class=\"viewer\"><canvas data-bim-opts='{\"lod\":300,\"clash\":true,\"disc\":{\"arch\":false,\"struct\":true,\"mep\":true},\"yaw\":-0.6}' role=\"img\" aria-label=\"BIM model with clash markers\"></canvas>\n      <div class=\"vhud\"><span><b>Clash detective</b> &middot; requested page</span><span>404</span></div>\n      <div class=\"vfoot\"><span>Status: not found in any discipline</span><span>Drag to orbit</span></div>\n    </div>\n  </div>\n</section>\n",
+  "cta": "<img class=\"bg\" srcset=\"/assets/img/dxb-dusk-960.jpg 960w, /assets/img/dxb-dusk.jpg 1920w\" sizes=\"100vw\" src=\"/assets/img/dxb-dusk.jpg\" alt=\"Dubai skyline at dusk across the water\" loading=\"lazy\">    <p class=\"lab\">Next step</p><h2 class=\"display\" style=\"margin-top:20px\">Let&rsquo;s find <em>what you need.</em></h2>\n    <div class=\"btns\"><a class=\"btn\" href=\"/request-talent/\">Request BIM professionals <i aria-hidden=\"true\">&#8599;</i></a><a class=\"btn ghost\" href=\"tel:+971588672901\">+971 58 867 2901</a></div>"
+ },
+ "redirects": [
+  {
+   "source": "/about-us",
+   "destination": "/about/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-video-presentation-engisoft",
+   "destination": "/about/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-profile-download",
+   "destination": "/about/",
+   "statusCode": 301
+  },
+  {
+   "source": "/contact-us",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/contact-us-1",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/enquiry-form",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/wp-forms",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/refer-us-and-earn-money",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/vendor-registration-form",
+   "destination": "/contact/",
+   "statusCode": 301
+  },
+  {
+   "source": "/blog",
+   "destination": "/insights/",
+   "statusCode": 301
+  },
+  {
+   "source": "/test",
+   "destination": "/careers/",
+   "statusCode": 301
+  },
+  {
+   "source": "/job-application-form",
+   "destination": "/careers/",
+   "statusCode": 301
+  },
+  {
+   "source": "/career",
+   "destination": "/careers/",
+   "statusCode": 301
+  },
+  {
+   "source": "/candidates-onboarding-form",
+   "destination": "/careers/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-projects",
+   "destination": "/case-studies/",
+   "statusCode": 301
+  },
+  {
+   "source": "/hire-bim-engineer",
+   "destination": "/engineering-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/outsourcing-bim-architects",
+   "destination": "/bim-staffing/outsourcing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/on-demand-bim-services",
+   "destination": "/bim-staffing/temporary/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-abu-dhabi",
+   "destination": "/locations/abu-dhabi/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-ajman-engisoft",
+   "destination": "/locations/ajman/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-sharjah",
+   "destination": "/locations/sharjah/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-saudi",
+   "destination": "/locations/saudi-arabia/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-uk",
+   "destination": "/locations/united-kingdom/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-usa",
+   "destination": "/locations/united-states/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-canada",
+   "destination": "/locations/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-modeling-services",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-modeling-services-sharjah",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-management-services",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-model-audit",
+   "destination": "/bim-services/bim-qa-qc/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-innovations",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-advisory-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-consulting-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-engineering-consultants",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/your-trusted-green-building-consultant",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/6d-bim-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/6d-bim-services-sharjah",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-clash-detection-services",
+   "destination": "/bim-services/clash-detection/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-clash-detection-services-sharjah",
+   "destination": "/bim-services/clash-detection/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revit-family-creation",
+   "destination": "/bim-services/revit-family-creation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-facility-management",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-facility-management-sharjah",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-facility-management-uk",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-facility-management-usa",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/cobie-modeling-services",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/facility-management-companies-in-dubai",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/construction-scheduling-services",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/5d-bim",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/5d-bim-cost-estimation-quantity-takeoff-services-sharjah",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/landscape-bim-services",
+   "destination": "/engineering-staffing/landscape-bim-architects/",
+   "statusCode": 301
+  },
+  {
+   "source": "/landscape-bim-services-in-uk",
+   "destination": "/engineering-staffing/landscape-bim-architects/",
+   "statusCode": 301
+  },
+  {
+   "source": "/landscape-bim-services-usa",
+   "destination": "/engineering-staffing/landscape-bim-architects/",
+   "statusCode": 301
+  },
+  {
+   "source": "/cad-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/drafting-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-drafting-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-drafting-services-sharjah",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-drafting-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-drafting-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/construction-documentation-services",
+   "destination": "/bim-services/shop-drawings/",
+   "statusCode": 301
+  },
+  {
+   "source": "/as-built-drawing-services",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/as-built-drawing-services-sharjah",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/exceptional-cad-design-services-uae",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovation-cad-design-services-sharjah",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revolutionize-your-concepts-with-cad-design-services",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/3d-rendering-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/3d-rendering-services-sharjah",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/3d-floor-plan-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/3d-floor-plan-services-sharjah",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/expert-3d-architectural-walkthrough-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/interior-design-3d-renderings",
+   "destination": "/bim-services/interior-fitout/",
+   "statusCode": 301
+  },
+  {
+   "source": "/interior-design-3d-renderings-saudi",
+   "destination": "/bim-services/interior-fitout/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-saudi",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-sharjah",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-uk",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-usa",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-saudi",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-uk",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-usa",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-saudi",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-sharjah",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-uk",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-usa",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-electrical-engineering-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-mechanical-engineering-services-in-dubai",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/unveiling-the-art-and-science-of-piping-engineering",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-coordination-services",
+   "destination": "/bim-services/bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-coordination-services-saudi",
+   "destination": "/bim-services/bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-coordination-services-uk",
+   "destination": "/bim-services/bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-coordination-services-usa",
+   "destination": "/bim-services/bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services-saudi",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services-sharjah",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services-uk",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services-usa",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-for-infrastructure-civil",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/leading-civil-engineering-company-in-dubai",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/interior-bim-services-uk",
+   "destination": "/bim-services/interior-fitout/",
+   "statusCode": 301
+  },
+  {
+   "source": "/interior-bim-services-usa",
+   "destination": "/bim-services/interior-fitout/",
+   "statusCode": 301
+  },
+  {
+   "source": "/our-interior-architecture-design-company",
+   "destination": "/bim-services/interior-fitout/",
+   "statusCode": 301
+  },
+  {
+   "source": "/point-cloud-to-bim-services",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/point-cloud-to-bim-services-saudi",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/point-cloud-to-bim-services-uk",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/point-cloud-to-bim-services-usa",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/scan-to-bim-services",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/rebar-detailing-services",
+   "destination": "/bim-services/rebar-detailing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/steel-shop-drawing-services",
+   "destination": "/bim-services/shop-drawings/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-steel-detailing-services",
+   "destination": "/bim-services/shop-drawings/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-shop-drawing-services",
+   "destination": "/bim-services/shop-drawings/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revit-training-in-dubai",
+   "destination": "/about/",
+   "statusCode": 301
+  },
+  {
+   "source": "/locations/uk",
+   "destination": "/locations/united-kingdom/",
+   "statusCode": 301
+  },
+  {
+   "source": "/locations/usa",
+   "destination": "/locations/united-states/",
+   "statusCode": 301
+  },
+  {
+   "source": "/locations/canada",
+   "destination": "/locations/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/bim-automation",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/bim-consulting",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/bim-implementation",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/4d-bim-scheduling",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/5d-bim-cost-estimation",
+   "destination": "/bim-services/bim-modeling/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/bim-facility-management",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/landscape-bim",
+   "destination": "/engineering-staffing/landscape-bim-architects/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/cad-drafting",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services/3d-visualization",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/newnow",
+   "destination": "/",
+   "statusCode": 301
+  },
+  {
+   "source": "/rkvilla",
+   "destination": "/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-clash-detection-benefits-best-practices",
+   "destination": "/bim-services/clash-detection/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovation-in-construction-the-role-of-structural-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/leveraging-structural-bim-services-for-enhanced-collaboration",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamlining-construction-projects-with-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/beyond-blueprints-transforming-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/building-smarter-transforming-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/from-concept-to-reality-the-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-structural-modeling-services-at-their-pinnacle",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-structural-modeling-in-dubai-construction-projects",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/precision-engineering-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/integrated-bim-solutions-for-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/future-trends-and-innovations-in-structural-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/detailing-and-documentation-in-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-structural-modeling-services-key-concepts-and-benefits",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/introduction-to-bim-structural-modeling-key-concepts-and-benefits",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/understanding-bim-structural-modeling-services-an-overview",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/optimizing-construction-with-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-structural-modeling-services-for-efficient-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/construction-projects-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamlining-construction-with-bim-structural-modeling-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/navigating-projects-leveraging-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revolutionizing-construction-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/exploring-the-dynamics-of-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamlining-the-benefits-of-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/building-a-strong-foundation-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamline-your-workflow-a-guide-to-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamlining-construction-bim-implementation-services-for-efficiency",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/project-excellence-customized-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/outsourcing-bim-architects-enhancing-design-quality-and-accuracy",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-future-of-construction-bim-consulting-services-leading-the-way",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/future-proofing-projects-the-importance-of-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/engineering-the-extra-ordinary-companies-in-redefining-infrastructure",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/transforming-architecture-the-impact-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovation-in-architecture-maximizing-creativity-with-architectural-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-services-in-dubai-design-innovation",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/designing-the-future-leveraging-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/future-proofing-projects-harnessing-bim-management-for-success",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-infrastructure-bim-services-in-construction-projects",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/unlocking-efficiency-the-power-of-mep-bim-modeling-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/creating-impactful-designs-architectural-bim-services-at-work",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-evolution-of-structural-design-a-closer-look-at-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-important-role-of-mep-services-in-sustainable-construction",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-engineering-companies-in-dubai-infrastructure",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-art-of-collaboration-architectural-engineering-consultants-in-action",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-collaborative-edge-architectural-engineering-consultants-in-action",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/transforming-project-management-the-power-of-bim-360",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-consultants-the-intersection-of-art-and-engineering",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-architectural-engineering-consultants",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-transformative-power-in-infrastructure-development",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-benefits-of-structural-bim-services-in-production",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-consulting-services-in-construction",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-architectural-engineering-consultants-in-modern-projects",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-strategies-for-success-essential-building-system-components",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-future-of-architecture-bim-consulting-and-sustainable-design",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-consulting-services-in-modern-projects",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovating-construction-bim-consulting-services-leading-the-way",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/from-concept-to-completion-the-role-of-bim-advisory-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-art-of-architecture-insights-from-engineering-consultants",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-services-in-dubais-construction-renaissance",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/future-proofing-construction-innovations-in-bim-advisory-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-communication-power-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/managing-growth-engineering-companies-establishing-in-dubai",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-impact-of-mep-bim-services-on-modern-construction",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-benefits-of-structural-bim-services-in-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-services-in-dubai-construction",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/performance-in-architecture-engineering-and-consulting-services-2",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-management-best-practices-lessons-from-industry-leaders",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-function-of-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-elevating-efficiency-engineering-companies-in-dubai",
+   "destination": "/insights/aec-workforce/",
+   "statusCode": 301
+  },
+  {
+   "source": "/navigating-future-the-essence-of-bim-consulting-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bridging-the-future-impact-of-infrastructure-bim-services",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/improving-projects-with-mep-bim-services-through-smart-build",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/digital-foundation-a-deep-dive-into-structural-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-solutions-in-architectural-engineering-skylines",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-engineering-and-consulting-services-performance-2",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-consultants-crafting-the-future-of-structures",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-value-of-architectural-engineering-in-tall-buildings",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-engineering-consultants-the-art-of-structure",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-engineering-and-consulting-services-performance",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/role-of-architectural-engineering-consultants-in-modern-projects",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/performance-in-architecture-engineering-and-consulting-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-impact-of-mep-bim-services-in-dubai-2",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/benefits-of-structural-bim-services-in-constructions",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mastering-quality-control-bim-model-audit-fundamentals",
+   "destination": "/bim-services/bim-qa-qc/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-creating-the-construction-design-of-the-future",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-impact-of-mep-bim-services-in-dubai",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-significance-of-bim-advisory-services-in-managing-innovation-2",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-consulting-services-for-project-optimization",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/streamlining-coordination-the-art-of-structural-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-engineering-consultants-future-landscapes",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-mep-bim-services-in-streamlining-systems",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/inviting-building-research-the-most-recent-bim-advances",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-power-of-bim-services-in-infrastructure-development-4",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-building-the-future-of-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/insights-the-impact-of-bim-model-audits-on-project-success",
+   "destination": "/bim-services/bim-qa-qc/",
+   "statusCode": 301
+  },
+  {
+   "source": "/promoting-construction-exploring-the-latest-bim-innovations",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-power-of-bim-services-in-infrastructure-development-3",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-approaches-architectural-engineering-consultant",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-power-of-bim-services-in-infrastructure-development-2",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-significance-of-bim-advisory-services-in-managing-innovation",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/improving-buildings-skilled-bim-implementation-services",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-consulting-excellence-solutions-for-construction",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-in-dubai-transforming-the-landscape-2",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architects-of-progress-engineering-consulting-companies-in-dubai",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/managing-excellence-leading-engineering-consultants-in-dubai",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-power-of-bim-services-in-infrastructure-development",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/engineering-companies-in-dubai-outstanding-achievements",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-innovation-unveiling-the-potential-of-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-companies-in-dubai-shaping-the-future-of-infrastructure-3",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/role-of-bim-services-in-dubai-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovating-solutions-the-impact-of-structural-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-infrastructure-bim-services-through-integration",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-for-seamless-project-coordination-2",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-power-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-on-sustainable-design",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-for-sustainable-designs",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-services-through-integration",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/improving-developments-mep-bim-services-solving-systems",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/using-innovation-response-of-structural-bim-services",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revolutionizing-the-power-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-managing-the-operating-systems-designs",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revolutionizing-design-the-power-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/building-mep-services-organizing-building-system-excellence",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/innovative-infrastructure-bim-services-planning-through-integration",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-revolutionizing-modern-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-for-seamless-project-coordination",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/engineering-companies-in-dubai-navigating-challenges",
+   "destination": "/insights/aec-workforce/",
+   "statusCode": 301
+  },
+  {
+   "source": "/leveraging-architectural-bim-services-for-sustainable-designs",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-services-shaping-construction-trends-unveiled",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/digital-construction-excellence-leading-bim-companies-in-dubai",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/building-the-future-leading-bim-companies-in-dubai",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-in-dubai-transforming-the-landscape",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-bim-service-providers-in-shaping-building-projects",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-essential-role-of-bim-services-in-dubai-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-services-in-dubai-redefining-construction-industry-standards",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-impact-of-structural-bim-services-on-sustainable-design",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-powering-dubais-construction",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-mep-bim-services-in-conflict-resolution",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/tracing-the-advancement-of-infrastructure-bim-services-in-dubai",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-transformative-power-of-mep-bim-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-for-integrated-building-solutions",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/developing-structural-bim-services-in-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-companies-in-dubai-shaping-the-future-of-infrastructure-2",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/optimizing-building-systems-with-mep-bim-services-2",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/smart-solutions-facility-management-companies-in-dubai",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/building-the-future-role-of-structural-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/leading-mep-companies-in-dubai-utilize-innovation",
+   "destination": "/digital-engineering/bim-automation/",
+   "statusCode": 301
+  },
+  {
+   "source": "/architectural-bim-services-in-modern-buildings",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/efficient-project-management-with-structural-bim-services",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/transforming-the-cityscape-with-mep-companies-in-dubai",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-dynamics-of-mep-company-in-modern-construction",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/remarkable-potential-of-structural-bim-services-in-modern-construction",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-role-of-mep-companies-in-dubais-iconic-infrastructure",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-definition-of-quality-architectural-companies-in-dubai",
+   "destination": "/bim-services/bim-qa-qc/",
+   "statusCode": 301
+  },
+  {
+   "source": "/unveiling-the-vital-role-of-mep-services-in-construction",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-bim-services-a-game-changer-for-architects",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/unlocking-excellence-exploring-mep-bim-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/design-with-data-the-power-of-architectural-bim-services",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/beyond-wires-and-pipes-understanding-mep-services",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/how-does-bim-work",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/what-is-bim-services-in-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-360-benefits",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-360-features",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-360",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/drafting-outsourcing-for-architectural-engineering-firms",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/virtual-design-construction-vdc",
+   "destination": "/insights/aec-workforce/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-design-to-fabrication",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-bim-coordination-in-complex-projects",
+   "destination": "/bim-services/bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-help-aec-firms-achieve",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/why-is-digitization-accelerating-in-the-construction-sector",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mistakes-to-avoid-while-hiring-your-cad",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/three-main-phases-of-architectural-drafting",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-clash-detection",
+   "destination": "/bim-services/clash-detection/",
+   "statusCode": 301
+  },
+  {
+   "source": "/how-to-make-construction-more-sustainable",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-value-of-open-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/mep-bim-enhance-various-building-phases",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-could-be-further-enhanced",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-service-provider",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-from-an-architect-standpoint",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/prefabricated-architecture",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-enhance-structural-design",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-is-a-growing-trend",
+   "destination": "/bim-services/bim-management/",
+   "statusCode": 301
+  },
+  {
+   "source": "/smart-investment-for-infrastructure",
+   "destination": "/bim-services/infrastructure-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/ar-technology-visualize-your-bim-model",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/changing-the-phase-of-security-with-bim-engisoft",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/from-autocad-to-bim",
+   "destination": "/bim-services/cad-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-bim-services-to-aec-professionals",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/drone-effects-in-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/robotic-construction-and-3d-printing-in-the-future",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/advantages-of-bim-for-architects",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/benefits-of-bim-for-small-projects",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-extinction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/top-construction-industry",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/as-built-drawings-in-construction",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-the-future-of-industry",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-building-codes",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/earthquake-resistant-architecture",
+   "destination": "/bim-services/architectural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-phase-of-security-system-with-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/future-with-construction-industry",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/benefit-of-cost-analysis-in-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/artificial-intelligence-bims-biggest-move",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/how-to-prepare-boq",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bill-of-quantities-boq",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/whats-needed-to-create-an-effective-bom",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bill-of-materials-bom",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/digital-twin",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/digital-twin-as-a-backbone-of-industry",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/common-mistakes-in-bim-implementation",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/outsourcing-architectural-drafting-services",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-5d-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/5d-bim-implementation",
+   "destination": "/bim-services/bim-execution-plan/",
+   "statusCode": 301
+  },
+  {
+   "source": "/as-built-drawings",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/value-of-as-built-drawings",
+   "destination": "/bim-services/scan-to-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/construction-drawings",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/importance-of-construction-drawing",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/shop-drawing",
+   "destination": "/bim-services/shop-drawings/",
+   "statusCode": 301
+  },
+  {
+   "source": "/difference-between-clash-detection-and-clash-avoidance",
+   "destination": "/bim-services/clash-detection/",
+   "statusCode": 301
+  },
+  {
+   "source": "/why-building-insulation-is-important",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/vertical-farm",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/concrete-dome-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-for-contractors",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/common-bim-myths-of-2022",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/the-global-adoption-of-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/what-is-4d-bim",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/digital-twins-in-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/virtual-design-and-construction",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/structural-workflow-design-to-fabrication",
+   "destination": "/bim-services/structural-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/benefits-of-rebar-modeling",
+   "destination": "/bim-services/rebar-detailing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-for-mep-designers",
+   "destination": "/bim-services/mep-bim/",
+   "statusCode": 301
+  },
+  {
+   "source": "/integration-of-bim-and-gis",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/why-engisoft-engineering-is-dubais-leading-bim-services-provider",
+   "destination": "/why-engisoft/",
+   "statusCode": 301
+  },
+  {
+   "source": "/category/aec-professionals/:rest*",
+   "destination": "/insights/aec-workforce/",
+   "statusCode": 301
+  },
+  {
+   "source": "/category/bim-consulting-services/:rest*",
+   "destination": "/insights/bim-standards/",
+   "statusCode": 301
+  },
+  {
+   "source": "/category/bim-implementation-services/:rest*",
+   "destination": "/insights/bim-standards/",
+   "statusCode": 301
+  },
+  {
+   "source": "/category/engineering-companies/:rest*",
+   "destination": "/insights/aec-workforce/",
+   "statusCode": 301
+  },
+  {
+   "source": "/category/:rest*",
+   "destination": "/insights/bim-technology/",
+   "statusCode": 301
+  },
+  {
+   "source": "/studio",
+   "destination": "/about/",
+   "statusCode": 301
+  },
+  {
+   "source": "/workforce",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/workforce-solutions/:rest*",
+   "destination": "/bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/works",
+   "destination": "/case-studies/",
+   "statusCode": 301
+  },
+  {
+   "source": "/projects",
+   "destination": "/case-studies/",
+   "statusCode": 301
+  },
+  {
+   "source": "/works/:slug",
+   "destination": "/case-studies/:slug/",
+   "statusCode": 301
+  },
+  {
+   "source": "/projects/:slug",
+   "destination": "/case-studies/:slug/",
+   "statusCode": 301
+  },
+  {
+   "source": "/services",
+   "destination": "/bim-services/",
+   "statusCode": 301
+  },
+  {
+   "source": "/services/:slug",
+   "destination": "/bim-services/:slug/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-digital-engineering/:slug",
+   "destination": "/bim-services/:slug/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-staffing-vs-outsourcing",
+   "destination": "/insights/bim-staffing/bim-staffing-vs-outsourcing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/hire-bim-engineers-dubai",
+   "destination": "/insights/bim-staffing/hire-bim-engineers-dubai/",
+   "statusCode": 301
+  },
+  {
+   "source": "/onsite-vs-remote-bim-staffing",
+   "destination": "/insights/bim-staffing/onsite-vs-remote-bim-staffing/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-engineer-technical-assessment",
+   "destination": "/insights/technical-guides/bim-engineer-technical-assessment/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-coordinator-vs-bim-manager",
+   "destination": "/insights/aec-workforce/bim-coordinator-vs-bim-manager/",
+   "statusCode": 301
+  },
+  {
+   "source": "/choose-bim-staffing-company",
+   "destination": "/insights/bim-staffing/choose-bim-staffing-company/",
+   "statusCode": 301
+  },
+  {
+   "source": "/revit-skills-bim-architect",
+   "destination": "/insights/bim-technology/revit-skills-bim-architect/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-outsourcing-saudi-arabia",
+   "destination": "/insights/bim-staffing/bim-outsourcing-saudi-arabia/",
+   "statusCode": 301
+  },
+  {
+   "source": "/reduce-bim-coordination-rework",
+   "destination": "/insights/technical-guides/reduce-bim-coordination-rework/",
+   "statusCode": 301
+  },
+  {
+   "source": "/iso-19650-bim-delivery",
+   "destination": "/insights/bim-standards/iso-19650-bim-delivery/",
+   "statusCode": 301
+  },
+  {
+   "source": "/bim-execution-plan-guide",
+   "destination": "/insights/bim-standards/bim-execution-plan-guide/",
+   "statusCode": 301
+  },
+  {
+   "source": "/ai-in-bim-coordination",
+   "destination": "/insights/ai-automation/ai-in-bim-coordination/",
+   "statusCode": 301
+  },
+  {
+   "source": "/dedicated-remote-bim-team",
+   "destination": "/insights/aec-workforce/dedicated-remote-bim-team/",
+   "statusCode": 301
+  },
+  {
+   "source": "/infrastructure-bim-staffing",
+   "destination": "/insights/aec-workforce/infrastructure-bim-staffing/",
+   "statusCode": 301
+  }
+ ]
+}
