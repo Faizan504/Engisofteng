@@ -1,0 +1,614 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>BIM MEP Walkthrough</title>
+<!--
+  BIM MEP clash-detection walkthrough · 16 s · 30 fps · three.js r160
+  PLAYBACK   open in a browser (needs internet for the three.js CDN). Space = pause/play, R = restart.
+  URL PARAMS ?w=3840&h=2160  render resolution (default 1920x1080; page scales to fit the window)
+             ?capture=1      no autoplay; drive frames yourself (deterministic):
+                               await renderFrame(t)   // t in seconds, 0..16
+                               grab(quality)          // -> JPEG data URL of the composited frame (3D + HUD)
+             ?t=9.5          start playback at a given time
+  Frame N at 30 fps = renderFrame(N / 30), N = 0..479.
+-->
+<style>html,body{margin:0;background:#000;overflow:hidden;height:100%}canvas{display:block;width:100vw;height:100vh;object-fit:contain}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const P = new URLSearchParams(location.search);
+const W = +(P.get('w') || 1920), H = +(P.get('h') || 1080);
+const S = W / 1920;                       // HUD scale factor
+const DUR = 16;
+
+// ---------------------------------------------------------------- renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.62;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+// the WebGL canvas stays off-DOM; the composited 2D canvas (3D + HUD) is what gets shown
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xe9eef2);
+scene.fog = new THREE.Fog(0xbfc8d0, 26, 60);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(56, W / H, 0.05, 120);
+
+// ---------------------------------------------------------------- dimensions
+const XW = 1.6;          // wall finish face
+const CEIL = 2.85;       // ceiling finish
+const SLAB = 4.1;        // structural slab soffit
+const Z0 = 6, Z1 = -50;  // corridor extents
+const ZL = Z0 - Z1, ZC = (Z0 + Z1) / 2;
+const CLASH = new THREE.Vector3(0.375, 3.30, -22.5);
+
+// ---------------------------------------------------------------- procedural textures
+function canvasTex(w, h, draw, rx = 1, ry = 1) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  return t;
+}
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+function speckle(g, w, h, base, n, cols, sz = 1.5) {
+  g.fillStyle = base; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < n; i++) { g.fillStyle = cols[(rnd() * cols.length) | 0]; g.globalAlpha = 0.25 + rnd() * 0.5; g.fillRect(rnd() * w, rnd() * h, sz * (0.5 + rnd()), sz * (0.5 + rnd())); }
+  g.globalAlpha = 1;
+}
+const floorTex = canvasTex(1024, 1024, (g, w, h) => {
+  speckle(g, w, h, '#d9dcd8', 26000, ['#bfc4c0', '#eef0ec', '#a9b0ad', '#c9cfd4'], 2.2);
+  g.strokeStyle = 'rgba(120,128,125,0.35)'; g.lineWidth = 2; g.strokeRect(1, 1, w - 2, h - 2);
+}, 1.6, 27);
+const ceilTex = canvasTex(512, 512, (g, w, h) => {
+  speckle(g, w, h, '#f4f4f1', 14000, ['#d8d8d2', '#e6e6e0', '#c9c9c2'], 1.6);
+  for (let i = 0; i < 260; i++) { g.strokeStyle = 'rgba(160,160,150,0.35)'; g.lineWidth = 1; g.beginPath(); const x = rnd() * w, y = rnd() * h; g.moveTo(x, y); g.lineTo(x + (rnd() - .5) * 18, y + (rnd() - .5) * 18); g.stroke(); }
+}, 1, 1);
+const wallTex = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#eef0ee', 9000, ['#e3e6e4', '#f7f8f6'], 1.2), 8, 4);
+const galvTex = canvasTex(512, 512, (g, w, h) => {
+  g.fillStyle = '#b9c0c6'; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 900; i++) { const v = 150 + rnd() * 70 | 0; g.fillStyle = `rgba(${v},${v + 4},${v + 8},0.55)`; g.beginPath(); const x = rnd() * w, y = rnd() * h, r = 6 + rnd() * 22; for (let k = 0; k < 7; k++) { const a = k / 7 * 6.283; g.lineTo(x + Math.cos(a) * r * (0.6 + rnd() * .6), y + Math.sin(a) * r * (0.6 + rnd() * .6)); } g.fill(); }
+}, 4, 30);
+const spiralTex = canvasTex(256, 256, (g, w, h) => {
+  g.fillStyle = '#c3c9ce'; g.fillRect(0, 0, w, h);
+  g.strokeStyle = 'rgba(90,96,102,0.6)'; g.lineWidth = 5;
+  for (let i = -2; i < 4; i++) { g.beginPath(); g.moveTo(i * w / 2, 0); g.lineTo(i * w / 2 + w, h); g.stroke(); }
+}, 2, 120);
+const blockTex = canvasTex(512, 512, (g, w, h) => {
+  speckle(g, w, h, '#a7aaa8', 12000, ['#959896', '#b7bab8', '#8d908e'], 2);
+  g.strokeStyle = 'rgba(70,72,72,0.55)'; g.lineWidth = 5;
+  for (let r = 0; r < 4; r++) { g.beginPath(); g.moveTo(0, r * 128); g.lineTo(w, r * 128); g.stroke(); const o = (r % 2) * 128; for (let c = 0; c < 3; c++) { g.beginPath(); g.moveTo(o + c * 256, r * 128); g.lineTo(o + c * 256, r * 128 + 128); g.stroke(); } }
+}, 28, 2);
+const concreteTex = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#b4b6b3', 16000, ['#a1a3a0', '#c3c5c2', '#999b98'], 2.5), 2, 28);
+const woodTex = canvasTex(256, 1024, (g, w, h) => {
+  g.fillStyle = '#b98b5c'; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 140; i++) { g.strokeStyle = `rgba(${110 + rnd() * 40 | 0},${70 + rnd() * 30 | 0},40,${0.15 + rnd() * 0.25})`; g.lineWidth = 1 + rnd() * 3; const x = rnd() * w; g.beginPath(); g.moveTo(x, 0); g.bezierCurveTo(x + rnd() * 20 - 10, h * .3, x + rnd() * 20 - 10, h * .7, x + rnd() * 10 - 5, h); g.stroke(); }
+});
+
+// ---------------------------------------------------------------- materials
+const U = { uScanZ: { value: 100 }, uTime: { value: 0 } };
+const std = (o) => new THREE.MeshStandardMaterial(o);
+const M = {
+  floor: std({ map: floorTex, roughness: 0.22, metalness: 0, envMapIntensity: 0.9 }),
+  stripe: std({ color: 0x1a8f9a, roughness: 0.25 }),
+  skirting: std({ color: 0x5b6670, roughness: 0.5 }),
+  rail: std({ color: 0xd9dee3, roughness: 0.3, metalness: 0.1 }),
+  railSteel: std({ color: 0xdfe3e6, roughness: 0.18, metalness: 1 }),
+  tbar: std({ color: 0xdedfdc, roughness: 0.55, metalness: 0.1, envMapIntensity: 0.5 }),
+  lightPanel: new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.99, 0.96).multiplyScalar(2.4) }),
+  lightFrame: std({ color: 0xf2f2f2, roughness: 0.4 }),
+  door: std({ map: woodTex, roughness: 0.45 }),
+  doorFrame: std({ color: 0xcfd5da, roughness: 0.2, metalness: 1 }),
+  glass: std({ color: 0x9fb7c4, roughness: 0.05, metalness: 0.2, transparent: true, opacity: 0.55 }),
+  sign: std({ color: 0x24394d, roughness: 0.4 }),
+  plate: std({ color: 0xf6f6f6, roughness: 0.4 }),
+  galv: std({ map: galvTex, color: 0xd8dde2, roughness: 0.4, metalness: 0.9, envMapIntensity: 0.55 }),
+  spiral: std({ map: spiralTex, roughness: 0.3, metalness: 0.95, envMapIntensity: 1.1 }),
+  chw: std({ color: 0x0a5cff, roughness: 0.3, metalness: 0.05, envMapIntensity: 0.6 }),
+  chwBand: std({ color: 0xffffff, roughness: 0.35 }),
+  fire: std({ color: 0xd3121b, roughness: 0.32, metalness: 0.15 }),
+  fireCoupling: std({ color: 0x2a2a2e, roughness: 0.5, metalness: 0.6 }),
+  brass: std({ color: 0xc9a14a, roughness: 0.25, metalness: 1 }),
+  bulb: std({ color: 0xff2a2a, emissive: 0x550000, roughness: 0.1, transparent: true, opacity: 0.85 }),
+  elec: std({ color: 0xffb800, roughness: 0.35, metalness: 0.2, envMapIntensity: 0.6 }),
+  elecBox: std({ color: 0xd9a700, roughness: 0.35, metalness: 0.5 }),
+  copper: std({ color: 0xc8743f, roughness: 0.22, metalness: 1 }),
+  stud: std({ color: 0x8f979e, roughness: 0.5, metalness: 0.6, envMapIntensity: 0.5 }),
+  strut: std({ color: 0x9da5ac, roughness: 0.4, metalness: 0.8 }),
+  rod: std({ color: 0x8a9096, roughness: 0.35, metalness: 1 }),
+  block: std({ map: blockTex, color: 0x8a8d8c, roughness: 0.95, envMapIntensity: 0.4 }),
+  slab: std({ map: concreteTex, color: 0x9a9c99, roughness: 0.95, envMapIntensity: 0.4 }),
+  cable: std({ color: 0x2b2f35, roughness: 0.6 }),
+  cableG: std({ color: 0x3a6b3f, roughness: 0.6 }),
+  endWall: new THREE.MeshBasicMaterial({ color: new THREE.Color(0.85, 0.9, 0.95).multiplyScalar(1.05) }),
+  diffuser: std({ color: 0xc8cacb, roughness: 0.5, metalness: 0.2, envMapIntensity: 0.5 }),
+};
+
+// Finish material that dissolves behind the scan front, cell by cell, with a hot cyan edge
+function finishMat(base, cell, spread) {
+  const m = std(base);
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uScanZ = U.uScanZ; sh.uniforms.uTime = U.uTime;
+    sh.uniforms.uCell = { value: cell }; sh.uniforms.uSpread = { value: spread };
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP;')
+      .replace('#include <project_vertex>', '#include <project_vertex>\nvWP = (modelMatrix * vec4(transformed,1.0)).xyz;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vWP; uniform float uScanZ; uniform vec3 uCell; uniform float uSpread;
+      float h13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.yzx+33.33); return fract((p.x+p.y)*p.z); }`)
+      .replace('void main() {', `void main() {
+        vec3 cid = floor((vWP + vec3(0.3,0.0,0.0)) / uCell);
+        float n = h13(cid + 17.0);
+        float edge = (vWP.z - uScanZ) - n * uSpread;
+        if (edge > 0.0) discard;`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        float g = smoothstep(-0.7, 0.0, edge);
+        vec3 fc = fract((vWP + vec3(0.3,0.0,0.0)) / uCell);
+        float rim = 0.0;
+        if (uCell.x < 50.0) rim = max(rim, step(fc.x, 0.06) + step(0.94, fc.x));
+        if (uCell.y < 50.0) rim = max(rim, step(fc.y, 0.06) + step(0.94, fc.y));
+        if (uCell.z < 50.0) rim = max(rim, step(fc.z, 0.06) + step(0.94, fc.z));
+        totalEmissiveRadiance += vec3(0.25, 0.85, 1.0) * (pow(g, 3.0) * 2.2 + g * rim * 4.0);`);
+  };
+  return m;
+}
+M.wallFinish = finishMat({ map: wallTex, roughness: 0.75, color: 0xffffff }, new THREE.Vector3(99, 0.3, 0.3), 1.1);
+M.ceilFinish = finishMat({ map: ceilTex, roughness: 0.9, color: 0xffffff }, new THREE.Vector3(0.6, 99, 0.6), 1.6);
+
+// Translucent CAD ghost of the removed finishes (grid + faint film), only behind the scan
+function ghostMat(axisA, axisB, step) {
+  return new THREE.ShaderMaterial({
+    uniforms: { uScanZ: U.uScanZ, uStep: { value: step } },
+    transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+    vertexShader: `varying vec3 vWP; void main(){ vec4 w = modelMatrix*vec4(position,1.0); vWP=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`,
+    fragmentShader: `varying vec3 vWP; uniform float uScanZ; uniform float uStep;
+      void main(){
+        float d = vWP.z - uScanZ; if (d < 0.0) discard;
+        vec2 p = vec2(vWP.${axisA}, vWP.${axisB}) / uStep + vec2(0.5);
+        vec2 f = abs(fract(p) - 0.5); vec2 fw = fwidth(p) * 1.2;
+        float l = max(1.0 - smoothstep(0.0, fw.x, 0.5 - f.x), 1.0 - smoothstep(0.0, fw.y, 0.5 - f.y));
+        float fade = smoothstep(0.0, 2.0, d) * (0.55 + 0.45 * exp(-d * 0.15));
+        vec3 c = vec3(0.30, 0.78, 1.0);
+        gl_FragColor = vec4(c * (l * 0.22 + 0.018) * fade, 1.0);
+      }`,
+  });
+}
+
+// ---------------------------------------------------------------- geometry helpers
+const root = new THREE.Group(); scene.add(root);
+function box(w, h, d, mat, x, y, z, parent = root) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); parent.add(m); return m; }
+const cylCache = {};
+function cyl(r, len, mat, axis, x, y, z, seg = 28, parent = root) {
+  const k = r + '_' + seg; const g = cylCache[k] || (cylCache[k] = new THREE.CylinderGeometry(1, 1, 1, seg, 1, false));
+  const m = new THREE.Mesh(g, mat); m.scale.set(r, len, r);
+  if (axis === 'z') m.rotation.x = Math.PI / 2; if (axis === 'x') m.rotation.z = Math.PI / 2;
+  m.position.set(x, y, z); parent.add(m); return m;
+}
+function plane(w, h, mat, pos, rot, parent = root) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.position.copy(pos); m.rotation.set(...rot); parent.add(m); return m; }
+const edgeMat = new THREE.LineBasicMaterial({ color: 0x9fe6ff, transparent: true, opacity: 0.35, depthWrite: false });
+function cadEdges(mesh, mat = edgeMat) { const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 20), mat); e.position.copy(mesh.position); e.rotation.copy(mesh.rotation); e.scale.copy(mesh.scale); mesh.parent.add(e); return e; }
+
+// ---------------------------------------------------------------- architecture
+// floor + wayfinding stripes
+plane(XW * 2 + 0.4, ZL, M.floor, new THREE.Vector3(0, 0, ZC), [-Math.PI / 2, 0, 0]);
+for (const sx of [-1, 1]) plane(0.06, ZL, M.stripe, new THREE.Vector3(sx * 1.05, 0.002, ZC), [-Math.PI / 2, 0, 0]);
+// structural slab soffit
+plane(XW * 2 + 0.4, ZL, M.slab, new THREE.Vector3(0, SLAB, ZC), [Math.PI / 2, 0, 0]);
+// back block walls (behind stud cavity)
+for (const sx of [-1, 1]) plane(ZL, SLAB, M.block, new THREE.Vector3(sx * 1.79, SLAB / 2, ZC), [0, -sx * Math.PI / 2, 0]);
+// end walls
+plane(3.6, SLAB, M.endWall, new THREE.Vector3(0, SLAB / 2, Z1), [0, 0, 0]);
+plane(3.6, SLAB, M.block, new THREE.Vector3(0, SLAB / 2, Z0), [0, Math.PI, 0]);
+
+// finished wall faces + CAD ghost
+for (const sx of [-1, 1]) {
+  const p = new THREE.Vector3(sx * XW, CEIL / 2, ZC);
+  plane(ZL, CEIL, M.wallFinish, p, [0, -sx * Math.PI / 2, 0]);
+  plane(ZL, CEIL, ghostMat('z', 'y', 0.6), p.clone().setX(sx * (XW - 0.004)), [0, -sx * Math.PI / 2, 0]);
+  box(0.012, 0.12, ZL, M.skirting, sx * (XW - 0.006), 0.06, ZC);
+}
+// ceiling tiles + ghost
+plane(XW * 2, ZL, M.ceilFinish, new THREE.Vector3(0, CEIL, ZC), [Math.PI / 2, 0, 0]);
+plane(XW * 2, ZL, ghostMat('x', 'z', 0.6), new THREE.Vector3(0, CEIL - 0.006, ZC), [Math.PI / 2, 0, 0]);
+
+// suspended T-bar grid (stays — it's the support system)
+for (let x = -1.5; x <= 1.51; x += 0.6) box(0.024, 0.035, ZL, M.tbar, x, CEIL - 0.012, ZC);
+for (let z = Z0; z >= Z1; z -= 0.6) box(XW * 2, 0.035, 0.024, M.tbar, 0, CEIL - 0.012, z);
+// perimeter angle
+for (const sx of [-1, 1]) box(0.03, 0.03, ZL, M.tbar, sx * (XW - 0.015), CEIL - 0.015, ZC);
+
+// light fixtures every 3.6 m (center tile row, 0.6 x 1.2)
+const fixtures = [];
+for (let z = 3.6; z >= Z1 + 2; z -= 3.6) {
+  if (Math.abs(z - CLASH.z) < 1.5) continue;
+  box(0.6, 0.06, 1.2, M.lightFrame, 0, CEIL + 0.02, z);
+  plane(0.54, 1.14, M.lightPanel, new THREE.Vector3(0, CEIL - 0.012, z), [Math.PI / 2, 0, 0]);
+  fixtures.push(z);
+}
+
+// doors
+const doors = [[-1, -3.2], [1, -8.4], [-1, -13.6], [1, -18.8], [-1, -27.4], [1, -32.6], [-1, -38.4], [1, -43.0]];
+for (const [sx, z] of doors) {
+  const x = sx * (XW - 0.02);
+  box(0.05, 2.2, 1.12, M.door, x, 1.1, z);
+  box(0.06, 2.3, 0.06, M.doorFrame, sx * (XW - 0.02), 1.15, z + 0.59);
+  box(0.06, 2.3, 0.06, M.doorFrame, sx * (XW - 0.02), 1.15, z - 0.59);
+  box(0.06, 0.06, 1.24, M.doorFrame, sx * (XW - 0.02), 2.3, z);
+  box(0.052, 0.55, 0.16, M.glass, x - sx * 0.002, 1.45, z + 0.3);
+  cyl(0.012, 0.3, M.railSteel, 'y', sx * (XW - 0.075), 1.05, z - 0.42, 12);
+  box(0.01, 0.18, 0.36, M.sign, sx * (XW - 0.005), 1.7, z + 0.95);
+}
+// wall protection rails, broken at doors
+for (const sx of [-1, 1]) {
+  const cuts = doors.filter(d => d[0] === sx).map(d => d[1]).sort((a, b) => b - a);
+  let zs = Z0;
+  for (const c of [...cuts, Z1 - 0.7]) {
+    const a = zs, b = c + 0.7; if (a - b > 0.2) {
+      box(0.03, 0.14, a - b, M.rail, sx * (XW - 0.02), 0.92, (a + b) / 2);
+      cyl(0.022, a - b, M.railSteel, 'z', sx * (XW - 0.06), 0.92, (a + b) / 2, 16);
+    }
+    zs = c - 0.7;
+  }
+}
+
+// ---------------------------------------------------------------- wall cavity (studs, conduits, boxes)
+for (const sx of [-1, 1]) {
+  for (let z = Z0; z >= Z1; z -= 0.6) box(0.09, SLAB, 0.035, M.stud, sx * 1.69, SLAB / 2, z);
+  box(0.09, 0.04, ZL, M.stud, sx * 1.69, 0.02, ZC);
+  box(0.09, 0.04, ZL, M.stud, sx * 1.69, SLAB - 0.02, ZC);
+}
+const outlets = [[-1, -1.0, 0.45], [1, -5.0, 0.45], [-1, -6.4, 1.2], [1, -11.0, 0.45], [-1, -16.2, 0.45], [1, -16.4, 1.2], [-1, -21.0, 0.45], [1, -25.0, 0.45], [-1, -30.2, 1.2], [1, -36.0, 0.45], [-1, -41.0, 0.45]];
+for (const [sx, z, y] of outlets) {
+  cyl(0.011, SLAB - 0.6 - y, M.elec, 'y', sx * 1.68, y + (SLAB - 0.6 - y) / 2 + 0.05, z, 12);
+  box(0.06, 0.12, 0.08, M.elecBox, sx * 1.64, y, z);
+  box(0.006, 0.12, 0.08, M.plate, sx * (XW - 0.003), y, z);
+}
+// medical gas drops (copper) in left wall
+for (const z of [-9.8, -24.6, -35.2]) for (let i = 0; i < 3; i++) cyl(0.008, 2.4, M.copper, 'y', -1.67, 1.75 + 1.2, z + i * 0.06, 10);
+
+// ---------------------------------------------------------------- MEP above ceiling
+// 1. HVAC supply duct (galvanized, rectangular) with flanges + CAD edges
+const duct = box(1.0, 0.45, ZL, M.galv, -0.7, 3.55, ZC); cadEdges(duct);
+for (let z = Z0; z >= Z1; z -= 1.5) box(1.04, 0.49, 0.035, M.galv, -0.7, 3.55, z);
+// 2. spiral return duct
+const ret = cyl(0.18, ZL, M.spiral, 'z', 1.0, 3.82, ZC, 36);
+for (let z = Z0; z >= Z1; z -= 3) cyl(0.188, 0.06, M.galv, 'z', 1.0, 3.82, z, 36);
+// 3. chilled water supply + return (insulated, blue) with white ID bands
+for (const x of [0.25, 0.5]) {
+  cyl(0.085, ZL, M.chw, 'z', x, 3.30, ZC, 32);
+  for (let z = Z0 - 1.5; z >= Z1; z -= 3) cyl(0.088, 0.14, M.chwBand, 'z', x, 3.30, z, 32);
+}
+// 4. fire sprinkler main + drops + pendant heads
+cyl(0.06, ZL, M.fire, 'z', 0.0, 3.85, ZC, 24);
+for (let z = Z0; z >= Z1; z -= 3) cyl(0.068, 0.07, M.fireCoupling, 'z', 0.0, 3.85, z, 24);
+const sprinklers = [];
+for (let z = 1.8; z >= Z1 + 1; z -= 3.6) {
+  cyl(0.022, 3.85 - CEIL, M.fire, 'y', 0.0, (3.85 + CEIL) / 2, z, 14);
+  cyl(0.03, 0.06, M.fireCoupling, 'y', 0.0, 3.80, z, 14);
+  cyl(0.045, 0.006, M.plate, 'y', 0.0, CEIL - 0.004, z, 20);
+  cyl(0.012, 0.05, M.brass, 'y', 0.0, CEIL - 0.03, z, 10);
+  cyl(0.006, 0.025, M.bulb, 'y', 0.0, CEIL - 0.06, z, 8);
+  cyl(0.028, 0.004, M.brass, 'y', 0.0, CEIL - 0.075, z, 16);
+  sprinklers.push(z);
+}
+// 5. electrical: yellow conduit racks + cable tray
+for (let i = 0; i < 6; i++) cyl(0.022, ZL, M.elec, 'z', 1.22 + (i % 3) * 0.12, 3.18 + Math.floor(i / 3) * 0.08, ZC, 14);
+for (let i = 0; i < 4; i++) cyl(0.018, ZL, M.elec, 'z', -1.52 + i * 0.07, 3.08, ZC, 12);
+for (let z = Z0; z >= Z1; z -= 3) { for (let i = 0; i < 3; i++) cyl(0.026, 0.05, M.elecBox, 'z', 1.22 + i * 0.12, 3.18, z, 14); }
+// cable tray
+box(0.3, 0.008, ZL, M.galv, 1.35, 3.55, ZC);
+for (const sx of [-1, 1]) box(0.008, 0.09, ZL, M.galv, 1.35 + sx * 0.15, 3.59, ZC);
+for (let i = 0; i < 9; i++) cyl(0.012, ZL, i % 3 === 0 ? M.cableG : M.cable, 'z', 1.235 + i * 0.028, 3.57 + (i % 2) * 0.016, ZC, 8);
+// 6. medical gas (copper) in plenum
+for (let i = 0; i < 3; i++) cyl(0.014, ZL, M.copper, 'z', -0.15 + i * 0.05, 3.05, ZC, 12);
+
+// hangers + strut trapezes
+for (let z = 0; z >= Z1; z -= 2.4) {
+  // pipes trapeze
+  box(0.62, 0.04, 0.04, M.strut, 0.375, 3.195, z);
+  for (const x of [0.1, 0.65]) cyl(0.008, SLAB - 3.195, M.rod, 'y', x, (SLAB + 3.195) / 2, z, 8);
+  // duct trapeze
+  box(1.2, 0.04, 0.04, M.strut, -0.7, 3.305, z);
+  for (const x of [-1.27, -0.13]) cyl(0.008, SLAB - 3.305, M.rod, 'y', x, (SLAB + 3.305) / 2, z, 8);
+  // conduit rack + tray
+  box(0.42, 0.035, 0.035, M.strut, 1.34, 3.14, z);
+  for (const x of [1.15, 1.53]) cyl(0.008, SLAB - 3.14, M.rod, 'y', x, (SLAB + 3.14) / 2, z, 8);
+  // fire main clevis
+  cyl(0.007, SLAB - 3.85, M.rod, 'y', 0.0, (SLAB + 3.85 + 0.06) / 2, z - 1.2, 8);
+  // return duct strap
+  cyl(0.007, SLAB - 3.82, M.rod, 'y', 1.0, (SLAB + 4.0) / 2, z - 1.2, 8);
+}
+
+// supply branch duct at the clash junction + diffuser
+const branchLen = 1.25;
+const branch = box(branchLen, 0.32, 0.5, M.galv, -0.2 + branchLen / 2, 3.30, CLASH.z); cadEdges(branch);
+for (const x of [0.1, 0.62]) box(0.035, 0.36, 0.54, M.galv, x, 3.30, CLASH.z);
+box(0.3, 0.3, 0.3, M.galv, 0.6, 2.99, CLASH.z);
+box(0.58, 0.02, 0.58, M.diffuser, 0.6, CEIL - 0.008, CLASH.z);
+// extra diffusers from main duct every 7.2 m
+for (let z = -4.2; z >= Z1 + 2; z -= 7.2) {
+  if (Math.abs(z - CLASH.z) < 2) continue;
+  box(0.25, 0.3, 0.25, M.galv, -0.9, 3.17, z);
+  box(0.58, 0.02, 0.58, M.diffuser, -0.9, CEIL - 0.008, z);
+}
+
+// ---------------------------------------------------------------- clash highlight
+const clashG = new THREE.Group(); clashG.visible = false; scene.add(clashG);
+const red = new THREE.Color(1.0, 0.13, 0.12);
+const redLine = new THREE.LineBasicMaterial({ color: red.clone().multiplyScalar(3), transparent: true, depthTest: false });
+const redWire = new THREE.MeshBasicMaterial({ color: red.clone().multiplyScalar(2.5), wireframe: true, transparent: true, depthTest: false });
+const redFill = new THREE.MeshBasicMaterial({ color: red.clone().multiplyScalar(1.5), transparent: true, opacity: 0.25, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending });
+const zoneBox = new THREE.BoxGeometry(0.62, 0.42, 0.62);
+const zone = new THREE.Mesh(zoneBox, redFill); zone.position.copy(CLASH); clashG.add(zone);
+const zoneEdges = new THREE.LineSegments(new THREE.EdgesGeometry(zoneBox), redLine); zoneEdges.position.copy(CLASH); clashG.add(zoneEdges);
+for (const x of [0.25, 0.5]) {
+  const w = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.3, 14, 6, true), redWire);
+  w.rotation.x = Math.PI / 2; w.position.set(x, 3.30, CLASH.z); clashG.add(w);
+}
+const bw = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.33, 0.51, 6, 3, 3), redWire); bw.position.set(0.375, 3.30, CLASH.z); clashG.add(bw);
+// expanding pulse rings (billboarded)
+const rings = [];
+for (let i = 0; i < 3; i++) {
+  const r = new THREE.Mesh(new THREE.RingGeometry(0.96, 1.0, 96), new THREE.MeshBasicMaterial({ color: red.clone().multiplyScalar(3), transparent: true, depthTest: false, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
+  r.position.copy(CLASH); clashG.add(r); rings.push(r);
+}
+const clashLight = new THREE.PointLight(0xff2a20, 0, 0, 2); clashLight.position.copy(CLASH).add(new THREE.Vector3(0, -0.25, 0.3)); scene.add(clashLight);
+
+// ---------------------------------------------------------------- scan front (vertical light sheet)
+const scanMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+  uniforms: { uTime: U.uTime, uAmp: { value: 1 } },
+  vertexShader: `varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+  fragmentShader: `varying vec2 vP; uniform float uTime; uniform float uAmp;
+    void main(){
+      float x = vP.x, y = vP.y + 2.05;
+      float dw = abs(abs(x) - ${XW.toFixed(3)});
+      float dc = abs(y - ${CEIL.toFixed(3)});
+      float inside = step(abs(x), ${XW.toFixed(3)}) * step(y, ${CEIL.toFixed(3)});
+      float edgeLine = exp(-dw * 160.0) * step(y, ${CEIL.toFixed(3)}) + exp(-dc * 160.0) * step(abs(x), ${XW.toFixed(3)});
+      float halo = exp(-dw * 14.0) * step(y, ${CEIL.toFixed(3)}) + exp(-dc * 14.0) * step(abs(x), ${XW.toFixed(3)});
+      float scan = 0.5 + 0.5 * sin(y * 90.0 - uTime * 20.0);
+      float fill = inside * (0.010 + 0.012 * scan) * smoothstep(0.0, 1.2, ${CEIL.toFixed(3)} - y + 0.4);
+      float beyond = (1.0 - inside) * 0.05 * exp(-min(dw, dc) * 6.0);
+      vec3 c = vec3(0.25, 0.8, 1.0);
+      gl_FragColor = vec4(c * (edgeLine * 5.0 + halo * 0.7 + fill * 2.5 + beyond * 2.0) * uAmp, 1.0);
+    }`,
+});
+const scanPlane = new THREE.Mesh(new THREE.PlaneGeometry(3.58, 4.1), scanMat); scene.add(scanPlane);
+
+// ---------------------------------------------------------------- lights
+scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa4ad, 0.45));
+const dir = new THREE.DirectionalLight(0xffffff, 0.35); dir.position.set(0.4, -1, 0.3); scene.add(dir); // up-light into plenum
+const pool = []; for (let i = 0; i < 5; i++) { const l = new THREE.PointLight(0xfff6ea, 4, 0, 2); scene.add(l); pool.push(l); }
+const scanLight = new THREE.PointLight(0x4cc8ff, 0, 0, 2); scene.add(scanLight);
+
+// ---------------------------------------------------------------- post
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(1); composer.setSize(W, H);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.38, 0.5, 1.05);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---------------------------------------------------------------- timeline
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const lerp = (a, b, t) => a + (b - a) * t;
+const T_SCAN0 = 1.3, T_SCAN1 = 9.0, T_CLASH = 8.4;
+function scanZ(t) {
+  if (t < T_SCAN0) return 50;
+  const u = clamp((t - T_SCAN0) / (T_SCAN1 - T_SCAN0));
+  return lerp(1.2, Z1 - 2, u * u * (1.6 - 0.6 * u)); // gentle ease-in, steady sweep
+}
+function camAt(t) {
+  const u = clamp(t / DUR);
+  const z = 3.2 - 22.7 * (1 - Math.pow(1 - u, 1.65));
+  const y = 1.62 + Math.sin(t * 2.1) * 0.006;
+  const x = 0.12 * Math.sin(t * 0.35) - 0.1 * sstep(9, 15, t);
+  return new THREE.Vector3(x, y, z);
+}
+function lookAt(t, cp) {
+  const fwd = new THREE.Vector3(cp.x * 0.3 + 0.04 * Math.sin(t * 0.5), 1.62 + 0.25 * sstep(2, 7, t), cp.z - 10);
+  const w = sstep(9.0, 13.8, t);
+  return fwd.lerp(CLASH.clone().add(new THREE.Vector3(-0.05, -0.05, 0)), w);
+}
+
+// ---------------------------------------------------------------- HUD (2D composite)
+const out = document.createElement('canvas'); out.width = W; out.height = H; document.body.appendChild(out);
+const g2 = out.getContext('2d');
+const F = (wt, px, fam = 'Inter') => `${wt} ${Math.round(px * S)}px ${fam}`;
+const MONO = 'JetBrains Mono';
+const SYS = [
+  { k: 'CHW', name: 'Chilled Water', col: '#2f86ff', tag: 'CHW-S Ø150 · INSUL 25', p: new THREE.Vector3(0.25, 3.39, 0) },
+  { k: 'HVAC', name: 'Supply Air Duct', col: '#c9d2da', tag: 'SA 1000×450 GALV', p: new THREE.Vector3(-0.7, 3.78, 0) },
+  { k: 'FP', name: 'Fire Suppression', col: '#ff3b3b', tag: 'FP MAIN Ø100 · WET', p: new THREE.Vector3(0.0, 3.91, 0) },
+  { k: 'ELEC', name: 'Electrical Conduit', col: '#ffc414', tag: 'EMT 6×Ø40 · LV/ESS', p: new THREE.Vector3(1.34, 3.26, 0) },
+];
+const tagStations = [-6.0, -12.6, -17.4, -28.8];
+function proj(v) { const p = v.clone().project(camera); return { x: (p.x * 0.5 + 0.5) * W, y: (-p.y * 0.5 + 0.5) * H, ok: p.z < 1 && p.z > -1 }; }
+function rr(x, y, w, h, r) { g2.beginPath(); g2.roundRect(x, y, w, h, r); }
+function hud(t, sz) {
+  const a = sstep(0.2, 1.0, t) * (1 - sstep(15.3, 15.9, t));
+  g2.save(); g2.globalAlpha = a;
+  const m = 56 * S;
+  { const gt = g2.createLinearGradient(0, 0, 0, 200 * S); gt.addColorStop(0, 'rgba(4,10,18,0.55)'); gt.addColorStop(1, 'rgba(4,10,18,0)'); g2.fillStyle = gt; g2.fillRect(0, 0, W, 200 * S);
+    const gb = g2.createLinearGradient(0, H - 260 * S, 0, H); gb.addColorStop(0, 'rgba(4,10,18,0)'); gb.addColorStop(1, 'rgba(4,10,18,0.6)'); g2.fillStyle = gb; g2.fillRect(0, H - 260 * S, W, 260 * S); }
+  // corner brackets
+  g2.strokeStyle = 'rgba(255,255,255,0.75)'; g2.lineWidth = 2 * S; const L = 34 * S;
+  for (const [cx, cy, dx, dy] of [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]]) { g2.beginPath(); g2.moveTo(cx, cy + dy * L); g2.lineTo(cx, cy); g2.lineTo(cx + dx * L, cy); g2.stroke(); }
+  // title block
+  g2.shadowColor = 'rgba(0,20,40,0.55)'; g2.shadowBlur = 10 * S;
+  g2.fillStyle = '#ffffff'; g2.font = F(600, 15, MONO); g2.textBaseline = 'top';
+  g2.fillText('BIM · MEP COORDINATION SCAN', m + 22 * S, m + 18 * S);
+  g2.font = F(400, 13, MONO); g2.fillStyle = 'rgba(225,240,255,0.85)';
+  g2.fillText('LEVEL 03 · EAST WARD CORRIDOR C-3.2  ·  LOD 400', m + 22 * S, m + 42 * S);
+  g2.fillText('FEDERATED MODEL  MEP_FED_v14  ·  ARCH_v22', m + 22 * S, m + 62 * S);
+  // top-right status
+  const sp = clamp((t - T_SCAN0) / (T_SCAN1 - T_SCAN0));
+  g2.textAlign = 'right'; g2.font = F(600, 15, MONO); g2.fillStyle = '#ffffff';
+  const tc = `${String(Math.floor(t)).padStart(2, '0')}:${String(Math.floor((t % 1) * 30)).padStart(2, '0')}`;
+  g2.fillText(`TC 00:00:${tc}`, W - m - 22 * S, m + 18 * S);
+  g2.font = F(400, 13, MONO); g2.fillStyle = 'rgba(225,240,255,0.85)';
+  g2.fillText(t < T_SCAN0 ? 'SCAN  STANDBY' : sp < 1 ? `SCAN  ${(sp * 100).toFixed(0).padStart(3, ' ')}%  · STRIPPING FINISHES` : 'SCAN  COMPLETE', W - m - 22 * S, m + 42 * S);
+  g2.fillText(`CAM  Z ${(-camera.position.z).toFixed(2).padStart(6, ' ')} m  · EL +${camera.position.y.toFixed(2)}`, W - m - 22 * S, m + 62 * S);
+  // scan progress bar
+  const bw = 220 * S, bx = W - m - 22 * S - bw, by = m + 86 * S;
+  g2.fillStyle = 'rgba(255,255,255,0.18)'; g2.fillRect(bx, by, bw, 3 * S);
+  g2.fillStyle = '#5fd4ff'; g2.fillRect(bx, by, bw * sp, 3 * S);
+  g2.textAlign = 'left';
+  // legend (bottom-left)
+  const ly = H - m - 22 * S - SYS.length * 30 * S;
+  g2.font = F(600, 12, MONO); g2.fillStyle = 'rgba(225,240,255,0.8)'; g2.fillText('SYSTEMS', m + 22 * S, ly - 26 * S);
+  SYS.forEach((s, i) => {
+    const y = ly + i * 30 * S, on = sstep(T_SCAN0 + 0.4 + i * 0.35, T_SCAN0 + 0.9 + i * 0.35, t);
+    g2.globalAlpha = a * (0.35 + 0.65 * on);
+    g2.fillStyle = s.col; rr(m + 22 * S, y + 2 * S, 26 * S, 10 * S, 2 * S); g2.fill();
+    g2.fillStyle = '#ffffff'; g2.font = F(600, 14, MONO); g2.fillText(s.k.padEnd(5, ' '), m + 60 * S, y);
+    g2.font = F(400, 14, 'Inter'); g2.fillStyle = 'rgba(235,245,255,0.92)'; g2.fillText(s.name, m + 118 * S, y - 1 * S);
+  });
+  g2.globalAlpha = a;
+  // clash counter bottom-right
+  g2.textAlign = 'right'; g2.font = F(600, 12, MONO); g2.fillStyle = 'rgba(225,240,255,0.8)';
+  g2.fillText('CLASH DETECTION', W - m - 22 * S, H - m - 82 * S);
+  const found = t > T_CLASH ? 1 : 0;
+  g2.font = F(700, 34, 'Inter'); g2.fillStyle = found ? '#ff4b45' : '#ffffff';
+  g2.fillText(`${found}`, W - m - 22 * S, H - m - 62 * S);
+  g2.font = F(400, 13, MONO); g2.fillStyle = 'rgba(225,240,255,0.85)';
+  g2.fillText(found ? 'HARD CLASH · UNRESOLVED' : 'RUNNING · TOL 25 mm', W - m - 22 * S, H - m - 20 * S);
+  g2.textAlign = 'left'; g2.shadowBlur = 0;
+
+  // in-world system tags (only revealed, near the camera)
+  for (const s of SYS) for (const zt of tagStations) {
+    const p3 = s.p.clone(); p3.z = zt + (s.k === 'ELEC' ? 0.6 : s.k === 'FP' ? -0.6 : 0);
+    const d = camera.position.z - p3.z;
+    if (d < 2.6 || d > 15) continue;
+    const rev = sstep(0, 1.6, p3.z - sz); if (rev <= 0) continue;
+    const near = sstep(15, 11, d) * sstep(2.6, 4.2, d);
+    const al = rev * near * (1 - sstep(10.5, 12.5, t) * (Math.abs(zt - CLASH.z) > 3 ? 1 : 0.0));
+    if (al <= 0.01) continue;
+    const q = proj(p3); if (!q.ok) continue;
+    const off = (s.k === 'HVAC' ? -1 : s.k === 'ELEC' ? 1 : s.k === 'FP' ? -0.4 : 0.6);
+    const lx = q.x + off * 70 * S, ly2 = q.y - 54 * S;
+    g2.globalAlpha = a * al;
+    g2.strokeStyle = s.col; g2.lineWidth = 1.5 * S;
+    g2.beginPath(); g2.moveTo(q.x, q.y); g2.lineTo(lx, ly2); g2.stroke();
+    g2.fillStyle = s.col; g2.beginPath(); g2.arc(q.x, q.y, 3.5 * S, 0, 7); g2.fill();
+    g2.font = F(600, 12, MONO); const tw = g2.measureText(s.tag).width + 18 * S;
+    const bx2 = off < 0 ? lx - tw : lx;
+    g2.fillStyle = 'rgba(8,18,30,0.62)'; rr(bx2, ly2 - 12 * S, tw, 24 * S, 3 * S); g2.fill();
+    g2.fillStyle = s.col; g2.fillRect(off < 0 ? bx2 + tw - 3 * S : bx2, ly2 - 12 * S, 3 * S, 24 * S);
+    g2.fillStyle = '#ffffff'; g2.textBaseline = 'middle'; g2.fillText(s.tag, bx2 + 9 * S, ly2 + 1 * S); g2.textBaseline = 'top';
+  }
+  g2.globalAlpha = a;
+
+  // clash alert panel + leader
+  if (t > T_CLASH) {
+    const k = sstep(T_CLASH, T_CLASH + 0.5, t);
+    const pulse = 0.5 + 0.5 * Math.cos((t - T_CLASH) * Math.PI * 2 / 1.2);
+    // red edge vignette pulse
+    const vg = g2.createRadialGradient(W / 2, H / 2, H * 0.45, W / 2, H / 2, H * 1.05);
+    vg.addColorStop(0, 'rgba(255,30,30,0)'); vg.addColorStop(1, `rgba(255,30,30,${0.12 * pulse * k})`);
+    g2.fillStyle = vg; g2.fillRect(0, 0, W, H);
+    const q = proj(CLASH);
+    if (q.ok) {
+      const pw = 430 * S, ph = 172 * S;
+      const px = clamp(q.x + 110 * S, m + 20 * S, W - m - pw - 20 * S), py = clamp(q.y + 70 * S, m + 120 * S, H - m - ph - 120 * S);
+      g2.globalAlpha = a * k;
+      g2.strokeStyle = '#ff4b45'; g2.lineWidth = 2 * S;
+      g2.beginPath(); g2.moveTo(q.x, q.y); g2.lineTo(px - 18 * S, py + 22 * S); g2.lineTo(px, py + 22 * S); g2.stroke();
+      g2.beginPath(); g2.arc(q.x, q.y, (8 + 6 * pulse) * S, 0, 7); g2.stroke();
+      g2.fillStyle = 'rgba(28,6,8,0.78)'; rr(px, py, pw, ph * k, 4 * S); g2.fill();
+      g2.strokeStyle = 'rgba(255,75,69,0.9)'; g2.lineWidth = 1.5 * S; rr(px, py, pw, ph * k, 4 * S); g2.stroke();
+      g2.fillStyle = '#ff4b45'; g2.fillRect(px, py, pw, 4 * S);
+      if (k > 0.6) {
+        g2.save(); g2.beginPath(); g2.rect(px, py, pw, ph * k); g2.clip();
+        g2.fillStyle = `rgba(255,75,69,${0.55 + 0.45 * pulse})`; g2.beginPath();
+        const ix = px + 22 * S, iy = py + 22 * S; g2.moveTo(ix + 11 * S, iy); g2.lineTo(ix + 22 * S, iy + 20 * S); g2.lineTo(ix, iy + 20 * S); g2.closePath(); g2.fill();
+        g2.fillStyle = '#1c0608'; g2.font = F(800, 13, 'Inter'); g2.fillText('!', ix + 8.5 * S, iy + 5 * S);
+        g2.fillStyle = '#ff6a64'; g2.font = F(700, 20, 'Inter'); g2.fillText('CLASH DETECTED', px + 56 * S, py + 21 * S);
+        g2.font = F(600, 12, MONO); g2.fillStyle = 'rgba(255,200,196,0.9)'; g2.textAlign = 'right';
+        g2.fillText('ID  C-0417', px + pw - 20 * S, py + 26 * S); g2.textAlign = 'left';
+        const rows = [['TYPE', 'HARD · 0 mm CLEARANCE'], ['ELEM A', 'CHW-S / CHW-R  Ø150 INSUL'], ['ELEM B', 'SA BRANCH DUCT 500×320'], ['OVERLAP', '112 mm  ·  GRID C-7 · EL +3.30']];
+        rows.forEach(([kk, v], i) => {
+          g2.font = F(500, 12, MONO); g2.fillStyle = 'rgba(255,190,186,0.75)'; g2.fillText(kk, px + 22 * S, py + 62 * S + i * 25 * S);
+          g2.font = F(500, 13, MONO); g2.fillStyle = '#ffffff'; g2.fillText(v, px + 112 * S, py + 61 * S + i * 25 * S);
+        });
+        g2.restore();
+      }
+    }
+  }
+  g2.restore();
+  // letterbox-free cinematic fade in/out
+  const fade = 1 - sstep(0, 0.6, t) + sstep(15.4, 16, t);
+  if (fade > 0) { g2.fillStyle = `rgba(0,0,0,${clamp(fade)})`; g2.fillRect(0, 0, W, H); }
+}
+
+// ---------------------------------------------------------------- frame
+window.renderFrame = (t) => {
+  U.uTime.value = t;
+  const sz = scanZ(t); U.uScanZ.value = sz;
+  const cp = camAt(t); camera.position.copy(cp);
+  camera.fov = lerp(56, 50, sstep(9, 15, t)); camera.updateProjectionMatrix();
+  camera.lookAt(lookAt(t, cp));
+
+  // scan sheet
+  scanPlane.position.set(0, 2.05, sz);
+  const sa = (t > T_SCAN0 ? 1 : 0) * sstep(T_SCAN0, T_SCAN0 + 0.4, t) * (1 - sstep(T_SCAN1 - 0.8, T_SCAN1, t));
+  scanMat.uniforms.uAmp.value = sa; scanPlane.visible = sa > 0.001;
+  scanLight.position.set(0, 2.4, sz + 0.4); scanLight.intensity = 10 * sa;
+
+  // nearest fixtures drive the point-light pool
+  const near = fixtures.filter(z => z < cp.z + 3).sort((a, b) => Math.abs(a - cp.z + 4) - Math.abs(b - cp.z + 4)).slice(0, pool.length);
+  pool.forEach((l, i) => { const z = near[i] ?? Z1; l.position.set(0, CEIL - 0.25, z); l.intensity = 4.5; });
+
+  // clash
+  const on = t > T_CLASH;
+  clashG.visible = on;
+  if (on) {
+    const dt = t - T_CLASH, k = sstep(0, 0.35, dt);
+    const pulse = 0.5 + 0.5 * Math.cos(dt * Math.PI * 2 / 1.2);
+    redFill.opacity = (0.10 + 0.22 * pulse) * k;
+    redLine.opacity = k; redWire.opacity = (0.35 + 0.4 * pulse) * k;
+    rings.forEach((r, i) => {
+      const ph = ((dt + i * 0.4) % 1.2) / 1.2;
+      r.quaternion.copy(camera.quaternion);
+      r.scale.setScalar(0.12 + ph * 0.6);
+      r.material.opacity = (1 - ph) * 0.8 * k;
+    });
+    clashLight.intensity = (0.8 + 2.2 * pulse) * k;
+  } else clashLight.intensity = 0;
+
+  composer.render();
+  g2.drawImage(renderer.domElement, 0, 0);
+  hud(t, sz);
+  return true;
+};
+window.grab = (q = 0.94) => out.toDataURL('image/jpeg', q);
+window.READY = true;
+window.DURATION = DUR;
+
+// real-time playback (disabled with ?capture=1)
+if (!P.has('capture')) {
+  let t = +(P.get('t') || 0), last = performance.now(), paused = false;
+  addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { paused = !paused; e.preventDefault(); }
+    if (e.key === 'r' || e.key === 'R') t = 0;
+  });
+  const loop = (now) => {
+    const dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (!paused) { t += dt; if (t > DUR) t = 0; }
+    renderFrame(t);
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+</script></body></html>
