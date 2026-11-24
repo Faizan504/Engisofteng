@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clash-Free Coordination</title>
+<!--
+  BIM coordination cutaway · "Clash-free before site" · 20 s · 30 fps · three.js r160
+  PLAYBACK   open in a browser (needs internet for the three.js CDN). Space = pause/play, R = restart.
+  URL PARAMS ?w=3840&h=2160  render resolution (default 1920x1080; page scales to fit the window)
+             ?capture=1      no autoplay; drive frames yourself (deterministic):
+                               renderFrame(t)   // t in seconds, 0..20
+                               grab(quality)    // -> JPEG data URL of the composited frame (3D + typography)
+             ?t=11           start playback at a given time
+  Frame N at 30 fps = renderFrame(N / 30), N = 0..599.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#000;overflow:hidden;height:100%}canvas{display:block;width:100vw;height:100vh;object-fit:contain}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const P = new URLSearchParams(location.search);
+const W = +(P.get('w') || 1920), H = +(P.get('h') || 1080);
+const S = W / 1920;
+const DUR = 20;
+
+// ---------------------------------------------------------------- renderer / scene
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(1); renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.92;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+const BG = new THREE.Color(0x262e36);
+scene.background = BG;
+scene.fog = new THREE.Fog(0x262d34, 60, 170);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.03).texture;
+
+// studio backdrop: slate gradient dome
+const dome = new THREE.Mesh(new THREE.SphereGeometry(400, 48, 24), new THREE.ShaderMaterial({
+  side: THREE.BackSide, depthWrite: false, fog: false,
+  vertexShader: `varying vec3 vD; void main(){ vD = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+  fragmentShader: `varying vec3 vD; void main(){
+    float h = vD.y;
+    vec3 hor = vec3(0.150,0.175,0.200), mid = vec3(0.200,0.228,0.258), top = vec3(0.110,0.130,0.155);
+    vec3 c = mix(hor, mid, smoothstep(0.0, 0.12, h)); c = mix(c, top, smoothstep(0.12, 0.7, h));
+    gl_FragColor = vec4(c, 1.0); }`,
+}));
+scene.add(dome);
+
+const camera = new THREE.PerspectiveCamera(30, W / H, 0.5, 1200);
+
+// ---------------------------------------------------------------- lights: soft studio + warm daylight
+scene.add(new THREE.HemisphereLight(0xd6dee6, 0x2a3138, 0.75));
+const sun = new THREE.DirectionalLight(0xffeedd, 2.6);
+sun.position.set(-38, 55, 42); sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+Object.assign(sun.shadow.camera, { left: -34, right: 34, top: 34, bottom: -34, near: 10, far: 160 });
+sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.03; sun.shadow.radius = 4;
+scene.add(sun);
+const rim = new THREE.DirectionalLight(0x9fb6cc, 0.7); rim.position.set(40, 20, -40); scene.add(rim);
+
+// ---------------------------------------------------------------- textures
+let seed = 5; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+function ctex(w, h, draw, rx = 1, ry = 1, srgb = true) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry);
+  if (srgb) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+const limeT = ctex(512, 512, (g, w, h) => {
+  g.fillStyle = '#d8cdb9'; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 16000; i++) { const v = rnd(); g.fillStyle = v > 0.5 ? 'rgba(255,250,240,0.18)' : 'rgba(150,135,110,0.16)'; const s = 1 + rnd() * 2.5; g.fillRect(rnd() * w, rnd() * h, s, s); }
+  for (let i = 0; i < 40; i++) { g.strokeStyle = 'rgba(160,145,120,0.12)'; g.lineWidth = 1 + rnd() * 2; g.beginPath(); const y = rnd() * h; g.moveTo(0, y); g.bezierCurveTo(w * .3, y + rnd() * 20 - 10, w * .7, y + rnd() * 20 - 10, w, y + rnd() * 10 - 5); g.stroke(); }
+}, 4, 3);
+const brushT = ctex(512, 64, (g, w, h) => {
+  g.fillStyle = '#9ca4ab'; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 700; i++) { const v = 130 + rnd() * 90 | 0; g.fillStyle = `rgba(${v},${v + 4},${v + 8},0.35)`; g.fillRect(0, rnd() * h, w, 0.6 + rnd()); }
+}, 1, 1);
+const floorGridT = ctex(512, 512, (g, w, h) => {
+  g.fillStyle = '#20272e'; g.fillRect(0, 0, w, h);
+  g.strokeStyle = 'rgba(140,170,200,0.10)'; g.lineWidth = 2; g.strokeRect(0, 0, w, h);
+  g.strokeStyle = 'rgba(140,170,200,0.05)'; g.lineWidth = 1; for (let i = 1; i < 5; i++) { g.beginPath(); g.moveTo(i * w / 5, 0); g.lineTo(i * w / 5, h); g.moveTo(0, i * h / 5); g.lineTo(w, i * h / 5); g.stroke(); }
+}, 40, 40);
+
+// ---------------------------------------------------------------- materials (per discipline, so each can federate in)
+const std = (o) => new THREE.MeshStandardMaterial(o);
+const D = {
+  STR: [], ARCH: [], HVAC: [], CHW: [], FP: [], ELEC: [],
+};
+function dm(disc, o) { const m = std(o); D[disc].push(m); return m; }
+const M = {
+  slab: dm('STR', { map: limeT, color: 0xf1e9db, roughness: 0.82 }),
+  steel: dm('STR', { map: brushT, color: 0xd4d9de, roughness: 0.42, metalness: 0.35, envMapIntensity: 1.3 }),
+  part: dm('ARCH', { color: 0xbdb6aa, roughness: 0.92 }),
+  cutEdge: dm('STR', { color: 0x6e9cc6, roughness: 0.5, emissive: 0x1d3550 }),
+  core: dm('ARCH', { color: 0x5f6870, roughness: 0.85 }),
+  grid: dm('ARCH', { color: 0xd8dce0, roughness: 0.5, metalness: 0.2 }),
+  tile: dm('ARCH', { color: 0xf1eee8, roughness: 0.95 }),
+  glass: dm('ARCH', { color: 0x9db4c6, roughness: 0.05, metalness: 0.4, transparent: true, opacity: 0.16, depthWrite: false }),
+  mull: dm('ARCH', { color: 0x4b545c, roughness: 0.4, metalness: 0.7 }),
+  duct: dm('HVAC', { map: brushT, color: 0xf4f6f8, roughness: 0.3, metalness: 0.45, envMapIntensity: 1.6 }),
+  ductR: dm('HVAC', { map: brushT, color: 0xe8ecef, roughness: 0.32, metalness: 0.45, envMapIntensity: 1.6 }),
+  chw: dm('CHW', { color: 0x3f80c8, roughness: 0.32, metalness: 0.1 }),
+  chwC: dm('CHW', { color: 0x3f80c8, roughness: 0.32, metalness: 0.1 }),       // clash floor pipes
+  fp: dm('FP', { color: 0xbb4b40, roughness: 0.35, metalness: 0.15 }),
+  tray: dm('ELEC', { color: 0xd2a656, roughness: 0.38, metalness: 0.45, envMapIntensity: 1.3 }),
+  cable: dm('ELEC', { color: 0x3a3f45, roughness: 0.6 }),
+  rod: dm('STR', { color: 0x7c848b, roughness: 0.4, metalness: 0.9 }),
+  branchC: dm('HVAC', { map: brushT, color: 0xf4f6f8, roughness: 0.3, metalness: 0.45, envMapIntensity: 1.6 }),  // clash floor branch
+};
+const groundMat = std({ map: floorGridT, color: 0xffffff, roughness: 0.95 });
+
+// ---------------------------------------------------------------- helpers
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+function mesh(geo, mat, x, y, z, parent, cast = true) { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = cast; m.receiveShadow = true; parent.add(m); return m; }
+const box = (w, h, d, mat, x, y, z, parent, cast) => mesh(new THREE.BoxGeometry(w, h, d), mat, x, y, z, parent, cast);
+const cylX = (r, len, mat, x, y, z, parent, seg = 20) => { const m = mesh(new THREE.CylinderGeometry(r, r, len, seg), mat, x, y, z, parent); m.rotation.z = Math.PI / 2; return m; };
+const cylY = (r, len, mat, x, y, z, parent, seg = 12) => mesh(new THREE.CylinderGeometry(r, r, len, seg), mat, x, y, z, parent);
+
+// ---------------------------------------------------------------- building parameters
+const NL = 4, FF = 4.2, SLAB = 0.25;
+const XS = [-15, -7.5, 0, 7.5, 15], ZS = [-9, 0, 9];
+const X0 = -15, X1 = 15, Z0 = -9, Z1 = 9;
+const yL = (i) => i * FF;               // top of slab of level i (0 = ground)
+const CEIL = 2.85, BEAM_D = 0.4, BEAM_BOT = FF - SLAB - BEAM_D; // 3.55
+const CLASH_L = 2, CLASH_X = 6;
+
+const building = new THREE.Group(); scene.add(building);
+// discipline groups per level, so they can federate with a stagger
+const G = {}; for (const d of Object.keys(D)) { G[d] = []; for (let i = 0; i < NL + 1; i++) { const g = new THREE.Group(); building.add(g); G[d].push(g); } }
+
+// ground
+{ const g = mesh(new THREE.PlaneGeometry(600, 600), groundMat, 0, -0.01, 0, scene, false); g.rotation.x = -Math.PI / 2; }
+// plinth
+box(X1 - X0 + 3, 0.5, Z1 - Z0 + 3, std({ color: 0x3b444c, roughness: 0.8 }), 0, -0.25, 0, building);
+
+// ---------------------------------------------------------------- STRUCTURE
+for (let i = 0; i <= NL; i++) {
+  const g = G.STR[i], y = yL(i);
+  // stepped section cut: each upper slab is cut back further on the camera side to expose the ceiling void below
+  const xc = [X1 + 0.3, 3.0, -3.0, -9.0, X0][i], xa = X0 - 0.3;
+  box(xc - xa, SLAB, Z1 - Z0 + 0.6, M.slab, (xa + xc) / 2, y - SLAB / 2, 0, g);
+  if (i > 0 && i < NL) box(0.06, SLAB + 0.02, Z1 - Z0 + 0.62, M.cutEdge, xc, y - SLAB / 2, 0, g);
+  if (i === NL) continue;
+  // columns (steel)
+  for (const x of XS) for (const z of ZS) { box(0.36, FF - SLAB, 0.36, M.steel, x, y + (FF - SLAB) / 2, z, g); }
+  // beams under next slab
+  const by = y + FF - SLAB - BEAM_D / 2;
+  const top = i === NL - 1;   // no roof: only perimeter steel on the top level
+  for (const z of ZS) if (!top || z !== 0) box(X1 - X0, BEAM_D, 0.22, M.steel, 0, by, z, g);
+  for (const x of XS) if (!top || x === X0 || x === X1) box(0.22, BEAM_D, Z1 - Z0, M.steel, x, by, 0, g);
+}
+// remove roof slab: replaced by roof steel only (cutaway) — hide last slab, keep a thin edge beam frame
+G.STR[NL].children[0].visible = false;
+
+
+// ---------------------------------------------------------------- ARCHITECTURE
+for (let i = 0; i < NL; i++) {
+  const g = G.ARCH[i], y = yL(i);
+  // core (back-left)
+  const cx0 = -13.6, cx1 = -8.6, cz0 = -8.4, cz1 = -3.6, ch = FF - SLAB;
+  box(cx1 - cx0, ch, 0.25, M.core, (cx0 + cx1) / 2, y + ch / 2, cz0, g);
+  box(cx1 - cx0, ch, 0.25, M.core, (cx0 + cx1) / 2, y + ch / 2, cz1, g);
+  box(0.25, ch, cz1 - cz0, M.core, cx0, y + ch / 2, (cz0 + cz1) / 2, g);
+  box(0.25, ch, cz1 - cz0, M.core, cx1, y + ch / 2, (cz0 + cz1) / 2, g);
+  // partitions up to ceiling
+  const ph = CEIL;
+  const walls = [[-8.6, -4.5, -1.5, -4.5], [-1.5, -4.5, -1.5, -8.6], [3.5, -4.5, 3.5, -8.6], [3.5, -4.5, 9.5, -4.5], [9.5, -4.5, 9.5, -8.6]];
+  if (i % 2 === 1) walls.push([-6, 4.5, 4, 4.5]);
+  for (const [ax, az, bx, bz] of walls) {
+    const len = Math.hypot(bx - ax, bz - az), w = box(len, ph, 0.12, M.part, (ax + bx) / 2, y + ph / 2, (az + bz) / 2, g);
+    w.rotation.y = -Math.atan2(bz - az, bx - ax);
+  }
+  // ceiling grid (1.2 m) + tiles on back half only (cutaway)
+  const cy = y + CEIL;
+  for (let x = X0 + 2.4; x < X1; x += 2.4) box(0.03, 0.04, Z1 - Z0, M.grid, x, cy, 0, g, false);
+  for (let z = Z0 + 2.4; z < Z1; z += 2.4) box(X1 - X0, 0.04, 0.03, M.grid, 0, cy, z, g, false);
+  box(X1 - X0 - 0.2, 0.02, 7.0, M.tile, 0, cy + 0.01, -5.4, g);
+  // back curtain wall (glass, two far sides)
+  box(X1 - X0, FF - SLAB, 0.05, M.glass, 0, y + (FF - SLAB) / 2, Z0 - 0.35, g, false);
+  box(0.05, FF - SLAB, Z1 - Z0, M.glass, X0 - 0.35, y + (FF - SLAB) / 2, 0, g, false);
+  for (let x = X0; x <= X1 + 0.01; x += 1.5) box(0.06, FF - SLAB, 0.1, M.mull, x, y + (FF - SLAB) / 2, Z0 - 0.35, g);
+  for (let z = Z0; z <= Z1 + 0.01; z += 1.5) box(0.1, FF - SLAB, 0.06, M.mull, X0 - 0.35, y + (FF - SLAB) / 2, z, g);
+}
+
+// ---------------------------------------------------------------- MEP (ceiling void: 2.85 .. 3.55)
+const RUN0 = -14.2, RUN1 = 14.2, RUNL = RUN1 - RUN0;
+const Z_SA = -2.8, Z_CHWS = -1.4, Z_CHWR = -1.05, Z_FP = -0.70, Z_TRAY = 0.0, Z_RA = 2.8;
+const Y_SA = 3.2, Y_PIPE = 3.42, Y_TRAY = 3.40, Y_RA = 3.22;
+const R_CHW = 0.08, R_FP = 0.07;
+const chwTubes = [];
+// clash-floor pipe path: misrouted dip + kink near CLASH_X, rerouted -> straight, exact 350 c/c
+function chwPath(zFinal, zStart, r) {
+  const pts = [];
+  for (let x = RUN0; x <= RUN1 + 1e-6; x += 0.25) {
+    const b = Math.exp(-Math.pow((x - CLASH_X) / 1.25, 2));
+    const k = 1 - r;
+    pts.push(new THREE.Vector3(x, Y_PIPE - 0.26 * b * k, lerp(zFinal, zStart, k) + 0.16 * b * k));
+  }
+  return new THREE.CatmullRomCurve3(pts);
+}
+for (let i = 0; i < NL; i++) {
+  const y = yL(i);
+  // HVAC supply main + flanges + branches + diffusers
+  const h = G.HVAC[i];
+  box(RUNL, 0.5, 1.0, M.duct, 0, y + Y_SA, Z_SA, h);
+  for (let x = RUN0; x <= RUN1; x += 1.5) box(0.04, 0.54, 1.04, M.duct, x, y + Y_SA, Z_SA, h);
+  for (const bx of [-6, CLASH_X]) {
+    const mat = (i === CLASH_L && bx === CLASH_X) ? M.branchC : M.duct;
+    box(0.6, 0.25, 3.1, mat, bx, y + 3.125, -0.75, h);
+    box(0.4, 0.2, 0.4, M.duct, bx, y + 2.95, 0.55, h);
+    box(0.6, 0.02, 0.6, M.part, bx, y + CEIL - 0.01, 0.55, h);
+  }
+  // return air (round)
+  cylX(0.22, RUNL, M.ductR, 0, y + Y_RA, Z_RA, h, 28);
+  for (let x = RUN0; x <= RUN1; x += 3) cylX(0.235, 0.06, M.duct, x, y + Y_RA, Z_RA, h, 28);
+  // CHW
+  const c = G.CHW[i];
+  for (const [zf, zs] of [[Z_CHWS, -1.52], [Z_CHWR, -1.12]]) {
+    const curve = i === CLASH_L ? chwPath(zf, zs, 0) : chwPath(zf, zf, 1);
+    const t = new THREE.Mesh(new THREE.TubeGeometry(curve, 240, R_CHW, 16, false), i === CLASH_L ? M.chwC : M.chw);
+    t.position.y = y; t.castShadow = true; t.receiveShadow = true; c.add(t);
+    if (i === CLASH_L) chwTubes.push({ t, zf, zs });
+  }
+  // FP main + sprinkler drops
+  const f = G.FP[i];
+  cylX(R_FP, RUNL, M.fp, 0, y + Y_PIPE, Z_FP, f, 18);
+  for (let x = -12; x <= 12; x += 3.6) { cylY(0.02, Y_PIPE - CEIL + 0.05, M.fp, x, y + (Y_PIPE + CEIL) / 2 - 0.03, Z_FP, f); cylY(0.035, 0.03, M.grid, x, y + CEIL - 0.04, Z_FP, f); }
+  // ELEC tray + cables
+  const e = G.ELEC[i];
+  box(RUNL, 0.01, 0.45, M.tray, 0, y + Y_TRAY - 0.05, Z_TRAY, e);
+  for (const s of [-1, 1]) box(RUNL, 0.1, 0.012, M.tray, 0, y + Y_TRAY, Z_TRAY + s * 0.225, e);
+  for (let k = 0; k < 7; k++) cylX(0.018, RUNL, M.cable, 0, y + Y_TRAY - 0.025 + (k % 2) * 0.02, Z_TRAY - 0.16 + k * 0.053, e, 8);
+  // hangers (structure)
+  for (let x = -13.75; x <= 14; x += 2.5) {
+    cylY(0.01, BEAM_BOT - Y_SA - 0.25, M.rod, x, y + (BEAM_BOT + Y_SA + 0.25) / 2, Z_SA - 0.55, G.STR[i], 6);
+    cylY(0.01, BEAM_BOT - Y_SA - 0.25, M.rod, x, y + (BEAM_BOT + Y_SA + 0.25) / 2, Z_SA + 0.55, G.STR[i], 6);
+    cylY(0.01, BEAM_BOT - Y_TRAY + 0.05, M.rod, x, y + (BEAM_BOT + Y_TRAY - 0.05) / 2, Z_TRAY - 0.25, G.STR[i], 6);
+    cylY(0.01, BEAM_BOT - Y_TRAY + 0.05, M.rod, x, y + (BEAM_BOT + Y_TRAY - 0.05) / 2, Z_TRAY + 0.25, G.STR[i], 6);
+  }
+}
+
+// ---------------------------------------------------------------- clash highlight + dimensions
+const AMBER = new THREE.Color(1.0, 0.62, 0.18), TBLUE = new THREE.Color(0.42, 0.68, 0.92);
+const clashY = yL(CLASH_L);
+const clashCenter = new THREE.Vector3(CLASH_X, clashY + 3.25, -1.15);
+const amberLine = new THREE.LineBasicMaterial({ color: AMBER.clone().multiplyScalar(2.2), transparent: true, opacity: 0, depthTest: false });
+const cbox = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.4, 0.75, 1.4)), amberLine);
+cbox.position.copy(clashCenter); cbox.renderOrder = 10; scene.add(cbox);
+// corner brackets on the box (subtle)
+const amberFill = new THREE.MeshBasicMaterial({ color: AMBER, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+const cfill = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.75, 1.4), amberFill); cfill.position.copy(clashCenter); scene.add(cfill);
+// dimension chain after reroute (z-direction at x = CLASH_X + 1.7)
+const dimMat = new THREE.LineBasicMaterial({ color: TBLUE.clone().multiplyScalar(1.6), transparent: true, opacity: 0, depthTest: false });
+const dimX = CLASH_X + 1.7, dimY = clashY + Y_PIPE + 0.22;
+{
+  const pts = [];
+  const zs = [Z_CHWS, Z_CHWR, Z_FP];
+  pts.push(new THREE.Vector3(dimX, dimY, zs[0]), new THREE.Vector3(dimX, dimY, zs[2]));
+  for (const z of zs) pts.push(new THREE.Vector3(dimX, dimY - 0.16, z), new THREE.Vector3(dimX, dimY + 0.06, z));
+  // vertical clearance (pipe underside to branch top), at branch
+  pts.push(new THREE.Vector3(CLASH_X + 0.45, clashY + 3.25, Z_CHWR), new THREE.Vector3(CLASH_X + 0.45, clashY + Y_PIPE - R_CHW, Z_CHWR));
+  pts.push(new THREE.Vector3(CLASH_X + 0.38, clashY + 3.25, Z_CHWR), new THREE.Vector3(CLASH_X + 0.52, clashY + 3.25, Z_CHWR));
+  pts.push(new THREE.Vector3(CLASH_X + 0.38, clashY + Y_PIPE - R_CHW, Z_CHWR), new THREE.Vector3(CLASH_X + 0.52, clashY + Y_PIPE - R_CHW, Z_CHWR));
+  const dl = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), dimMat); dl.renderOrder = 11; scene.add(dl);
+}
+
+// ---------------------------------------------------------------- scan (floor-by-floor)
+const scanFill = new THREE.MeshBasicMaterial({ color: TBLUE, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
+const scanBand = new THREE.Mesh(new THREE.PlaneGeometry(X1 - X0 + 1.2, Z1 - Z0 + 1.2), scanFill); scanBand.rotation.x = -Math.PI / 2; scene.add(scanBand);
+const sweepMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { uA: { value: 0 }, uC: { value: TBLUE.clone() } },
+  vertexShader: `varying vec2 vU; void main(){ vU = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+  fragmentShader: `varying vec2 vU; uniform float uA; uniform vec3 uC; void main(){
+    float edge = exp(-abs(vU.y - 0.5) * 0.0);
+    float v = 0.10 + 0.9 * pow(1.0 - abs(vU.x - 0.5) * 2.0, 6.0);
+    float fadeY = smoothstep(0.0, 0.15, vU.y) * smoothstep(1.0, 0.85, vU.y);
+    gl_FragColor = vec4(uC * v * fadeY * uA * 1.6, 1.0); }`,
+});
+const sweep = new THREE.Mesh(new THREE.PlaneGeometry(0.5, Z1 - Z0 + 1.0), sweepMat); sweep.rotation.set(-Math.PI / 2, 0, 0); scene.add(sweep);
+const sweepWall = new THREE.Mesh(new THREE.PlaneGeometry(0.06, 1.0), new THREE.MeshBasicMaterial({ color: TBLUE.clone().multiplyScalar(2), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
+// verified slab edge outlines
+const edgeOutlines = [];
+for (let i = 0; i < NL; i++) {
+  const l = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(X1 - X0 + 0.65, 0.01, Z1 - Z0 + 0.65)), new THREE.LineBasicMaterial({ color: TBLUE.clone().multiplyScalar(1.4), transparent: true, opacity: 0 }));
+  l.position.set(0, yL(i + 1) + 0.01, 0); scene.add(l); edgeOutlines.push(l);
+}
+
+// ---------------------------------------------------------------- post
+const composer = new EffectComposer(renderer); composer.setPixelRatio(1); composer.setSize(W, H);
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), 0.3, 0.5, 1.15));
+composer.addPass(new OutputPass());
+
+// ---------------------------------------------------------------- timeline
+const FED = [ // discipline, start, offset, label, swatch
+  { d: 'STR', t0: 0.5, off: new THREE.Vector3(0, -7, 0), name: 'Structure', sub: 'Steel frame · concrete slabs', col: '#c9c1b2' },
+  { d: 'ARCH', t0: 1.9, off: new THREE.Vector3(-10, 0, 0), name: 'Architecture', sub: 'Partitions · ceiling grids', col: '#e8e1d4' },
+  { d: 'HVAC', t0: 3.1, off: new THREE.Vector3(0, 6, 0), name: 'HVAC', sub: 'Supply & return ductwork', col: '#c3cbd2' },
+  { d: 'CHW', t0: 3.7, off: new THREE.Vector3(0, 6, 4), name: 'Chilled Water', sub: 'CHW-S / CHW-R Ø160', col: '#4f86bf' },
+  { d: 'FP', t0: 4.3, off: new THREE.Vector3(0, 6, -4), name: 'Fire Protection', sub: 'Wet mains · sprinklers', col: '#b9524a' },
+  { d: 'ELEC', t0: 4.9, off: new THREE.Vector3(8, 6, 0), name: 'Electrical', sub: 'Cable trays · LV', col: '#c49d55' },
+];
+const FED_DUR = 1.5, LVL_STAGGER = 0.14;
+// scan schedule per level: [start, end]; clash level dwells longer
+const SCAN = [[7.0, 8.7], [8.9, 10.6], [10.8, 15.2], [15.4, 17.0]];
+const T_FIND = 11.55, T_REROUTE0 = 12.6, T_REROUTE1 = 13.9;
+const sweepXAt = (i, t) => {
+  const [a, b] = SCAN[i];
+  if (i !== CLASH_L) return lerp(X0 - 0.5, X1 + 0.5, sstep(a + 0.25, b - 0.25, t));
+  // sweep to clash, hold while rerouting, then continue
+  const xa = lerp(X0 - 0.5, CLASH_X, sstep(a + 0.25, T_FIND, t));
+  return t < T_REROUTE1 + 0.2 ? xa : lerp(CLASH_X, X1 + 0.5, sstep(T_REROUTE1 + 0.2, b - 0.25, t));
+};
+
+// ---------------------------------------------------------------- camera (slow orbit, building framed right)
+camera.filmGauge = 35;
+function camAt(t) {
+  const u = t / DUR;
+  const az = lerp(0.92, 1.32, u * 0.85 + 0.15 * (u * u * (3 - 2 * u)));
+  const R = lerp(70, 62, sstep(0, DUR, t));
+  const y = lerp(24, 20, sstep(0, DUR, t));
+  const pos = new THREE.Vector3(Math.sin(az) * R, y, Math.cos(az) * R);
+  return { pos, target: new THREE.Vector3(0, 8.0, 0) };
+}
+
+// ---------------------------------------------------------------- typography canvas
+const out = document.createElement('canvas'); out.width = W; out.height = H; document.body.appendChild(out);
+const g2 = out.getContext('2d');
+const F = (wt, px, fam = 'Inter') => `${wt} ${Math.round(px * S)}px "${fam}", system-ui, sans-serif`;
+const MONO = 'JetBrains Mono';
+function proj(v) { const p = v.clone().project(camera); return { x: (p.x * 0.5 + 0.5) * W, y: (-p.y * 0.5 + 0.5) * H, ok: p.z < 1 }; }
+function rr(x, y, w, h, r) { g2.beginPath(); g2.roundRect(x, y, w, h, r); }
+const LIME = '#e9dfcc', MUTED = 'rgba(222,228,234,0.62)', BLUE = '#7fb0de', AMB = '#ffb347';
+
+function check(x, y, s, col) { g2.strokeStyle = col; g2.lineWidth = 1.8 * S; g2.beginPath(); g2.moveTo(x, y + s * 0.5); g2.lineTo(x + s * 0.38, y + s * 0.85); g2.lineTo(x + s, y + s * 0.1); g2.stroke(); }
+
+function typography(t) {
+  const a = sstep(0.4, 1.4, t) * (1 - sstep(19.2, 19.85, t));
+  g2.save(); g2.globalAlpha = a; g2.textBaseline = 'alphabetic';
+  const L = 120 * S;
+  // left-side soft vignette for legibility
+  const gr = g2.createLinearGradient(0, 0, W * 0.42, 0); gr.addColorStop(0, 'rgba(18,22,27,0.55)'); gr.addColorStop(1, 'rgba(18,22,27,0)');
+  g2.fillStyle = gr; g2.fillRect(0, 0, W * 0.42, H);
+
+  // eyebrow + title
+  g2.font = F(500, 13, MONO); g2.fillStyle = BLUE;
+  g2.fillText('BIM COORDINATION  ·  FEDERATED MODEL', L, 178 * S);
+  const ta = sstep(0.8, 1.8, t);
+  g2.globalAlpha = a * ta;
+  g2.font = F(300, 68, 'Inter'); g2.fillStyle = '#f3efe7';
+  g2.fillText('Clash-free', L, 258 * S + (1 - ta) * 12 * S);
+  g2.font = F(600, 68, 'Inter'); g2.fillStyle = LIME;
+  g2.fillText('before site.', L, 334 * S + (1 - ta) * 12 * S);
+  g2.globalAlpha = a * sstep(1.4, 2.4, t);
+  g2.font = F(400, 17, 'Inter'); g2.fillStyle = MUTED;
+  g2.fillText('Every discipline federated, scanned and verified', L, 378 * S);
+  g2.fillText('in the model — not discovered on the job.', L, 402 * S);
+  g2.globalAlpha = a;
+
+  // hairline
+  g2.fillStyle = 'rgba(222,228,234,0.18)'; g2.fillRect(L, 446 * S, 360 * S, 1 * S);
+
+  // discipline list
+  FED.forEach((f, k) => {
+    const y = 496 * S + k * 46 * S;
+    const p = sstep(f.t0, f.t0 + FED_DUR, t);
+    g2.globalAlpha = a * (0.28 + 0.72 * sstep(f.t0 - 0.2, f.t0 + 0.4, t));
+    g2.fillStyle = f.col; rr(L, y - 13 * S, 4 * S, 30 * S, 2 * S); g2.fill();
+    g2.font = F(500, 17, 'Inter'); g2.fillStyle = '#eef1f4'; g2.fillText(f.name, L + 20 * S, y + 2 * S);
+    g2.font = F(400, 12, MONO); g2.fillStyle = MUTED; g2.fillText(f.sub.toUpperCase(), L + 20 * S, y + 20 * S);
+    // federation progress / check
+    const rx = L + 340 * S;
+    if (p < 1) { g2.fillStyle = 'rgba(222,228,234,0.15)'; g2.fillRect(rx - 40 * S, y - 3 * S, 40 * S, 2 * S); g2.fillStyle = BLUE; g2.fillRect(rx - 40 * S, y - 3 * S, 40 * S * p, 2 * S); }
+    else { g2.globalAlpha = a * sstep(f.t0 + FED_DUR, f.t0 + FED_DUR + 0.3, t); check(rx - 16 * S, y - 12 * S, 14 * S, BLUE); }
+  });
+  g2.globalAlpha = a;
+
+  // status line (bottom-left)
+  const sy = H - 150 * S;
+  g2.fillStyle = 'rgba(222,228,234,0.18)'; g2.fillRect(L, sy - 36 * S, 360 * S, 1 * S);
+  let label = 'FEDERATING DISCIPLINES', col = MUTED, detail = '';
+  const lvlDone = SCAN.filter(s => t >= s[1]).length;
+  if (t >= 6.6) { label = 'COORDINATION SCAN'; col = BLUE; detail = `LEVEL ${String(Math.min(NL, SCAN.findIndex(s => t < s[1]) + 1 || NL)).padStart(2, '0')} / ${String(NL).padStart(2, '0')}`; }
+  if (t >= T_FIND && t < T_REROUTE0) { label = 'CLASH  C-021  ·  CHW × SA BRANCH'; col = AMB; detail = 'L03  ·  GRID C/4  ·  OVERLAP 140 mm'; }
+  if (t >= T_REROUTE0 && t < T_REROUTE1 + 0.4) { label = 'AUTO-REROUTE  ·  CHW-S / CHW-R'; col = AMB; detail = 'PARALLEL  ·  350 c/c  ·  90 mm CLR'; }
+  if (t >= T_REROUTE1 + 0.4 && t < SCAN[NL - 1][1]) { label = 'C-021 RESOLVED  ·  SCAN CONTINUES'; col = BLUE; detail = `LEVEL ${String(Math.min(NL, SCAN.findIndex(s => t < s[1]) + 1 || NL)).padStart(2, '0')} / ${String(NL).padStart(2, '0')}`; }
+  if (t >= SCAN[NL - 1][1]) { label = 'ALL LEVELS VERIFIED'; col = BLUE; detail = '0 ACTIVE CLASHES  ·  READY FOR SITE'; }
+  g2.font = F(500, 14, MONO); g2.fillStyle = col; g2.fillText(label, L, sy);
+  g2.font = F(400, 13, MONO); g2.fillStyle = MUTED; g2.fillText(detail, L, sy + 24 * S);
+  // level pips
+  for (let i = 0; i < NL; i++) {
+    const x = L + i * 92 * S, y = sy + 52 * S;
+    const done = t >= SCAN[i][1], act = t >= SCAN[i][0] && !done;
+    const isClash = i === CLASH_L && t >= T_FIND && t < T_REROUTE1 + 0.4;
+    g2.fillStyle = done ? BLUE : isClash ? AMB : act ? 'rgba(127,176,222,0.55)' : 'rgba(222,228,234,0.16)';
+    g2.fillRect(x, y, 80 * S, 3 * S);
+    g2.font = F(400, 11, MONO); g2.fillStyle = done ? '#dfe9f3' : MUTED; g2.fillText(`L0${i + 1}`, x, y + 20 * S);
+  }
+
+  // in-scene callouts: level verified tags (right edge of each floor)
+  for (let i = 0; i < NL; i++) {
+    const k = sstep(SCAN[i][1] - 0.1, SCAN[i][1] + 0.4, t);
+    if (k <= 0) continue;
+    const q = proj(new THREE.Vector3(X1 + 0.3, yL(i) + 1.6, Z1 + 0.3)); if (!q.ok) continue;
+    g2.globalAlpha = a * k;
+    const lx = q.x + 34 * S, ly = q.y;
+    g2.strokeStyle = 'rgba(127,176,222,0.8)'; g2.lineWidth = 1.2 * S; g2.beginPath(); g2.moveTo(q.x, q.y); g2.lineTo(lx, ly); g2.stroke();
+    g2.fillStyle = BLUE; g2.beginPath(); g2.arc(q.x, q.y, 2.8 * S, 0, 7); g2.fill();
+    const txt = i === CLASH_L ? `L0${i + 1}  VERIFIED  ·  1 RESOLVED` : `L0${i + 1}  VERIFIED`;
+    g2.font = F(500, 12, MONO); const tw = g2.measureText(txt).width;
+    check(lx + 8 * S, ly - 7 * S, 11 * S, BLUE);
+    g2.fillStyle = '#e6eef6'; g2.textBaseline = 'middle'; g2.fillText(txt, lx + 28 * S, ly + 0.5 * S); g2.textBaseline = 'alphabetic';
+  }
+  g2.globalAlpha = a;
+
+  // clash callout + dimension labels
+  if (t >= T_FIND - 0.05 && t < 16.4) {
+    const k = sstep(T_FIND, T_FIND + 0.3, t) * (1 - sstep(15.6, 16.3, t));
+    const q = proj(clashCenter.clone().add(new THREE.Vector3(0, 0.45, 0.7)));
+    const resolved = t >= T_REROUTE1;
+    const ccol = resolved ? BLUE : AMB;
+    if (q.ok && k > 0) {
+      g2.globalAlpha = a * k * (resolved ? (1 - sstep(T_REROUTE1 + 1.4, T_REROUTE1 + 2.2, t)) : 1);
+      const lx = q.x - 70 * S, ly = q.y - 92 * S;
+      g2.strokeStyle = ccol; g2.lineWidth = 1.4 * S;
+      g2.beginPath(); g2.moveTo(q.x, q.y); g2.lineTo(lx, ly); g2.lineTo(lx - 150 * S, ly); g2.stroke();
+      g2.font = F(600, 13, MONO); g2.fillStyle = ccol; g2.textAlign = 'right';
+      g2.fillText(resolved ? 'C-021  RESOLVED' : 'C-021  HARD CLASH', lx - 4 * S, ly - 10 * S);
+      g2.font = F(400, 11, MONO); g2.fillStyle = MUTED;
+      g2.fillText(resolved ? 'REROUTED · CLEARANCE OK' : 'CHW-S/R × SA BRANCH 600×250', lx - 4 * S, ly + 18 * S);
+      g2.textAlign = 'left';
+    }
+    // dimension text
+    const dk = sstep(T_REROUTE1 - 0.1, T_REROUTE1 + 0.4, t) * (1 - sstep(15.6, 16.3, t));
+    if (dk > 0) {
+      g2.globalAlpha = a * dk; g2.font = F(500, 11, MONO); g2.fillStyle = '#cfe3f6'; g2.textAlign = 'center';
+      const m1 = proj(new THREE.Vector3(dimX, dimY + 0.12, (Z_CHWS + Z_CHWR) / 2)), m2 = proj(new THREE.Vector3(dimX, dimY + 0.12, (Z_CHWR + Z_FP) / 2));
+      g2.fillText('350', m1.x, m1.y); g2.fillText('350', m2.x, m2.y);
+      const m3 = proj(new THREE.Vector3(CLASH_X + 0.62, clashY + 3.30, Z_CHWR));
+      g2.textAlign = 'left'; g2.fillText('90 CLR', m3.x + 6 * S, m3.y + 4 * S);
+      g2.textAlign = 'left';
+    }
+  }
+  g2.restore();
+  const fade = 1 - sstep(0, 0.8, t) + sstep(19.3, 20, t);
+  if (fade > 0) { g2.fillStyle = `rgba(0,0,0,${clamp(fade)})`; g2.fillRect(0, 0, W, H); }
+}
+
+// ---------------------------------------------------------------- frame
+let lastR = -1;
+window.renderFrame = (t) => {
+  // federation: each discipline arrives from its own offset, levels staggered, materials fade in
+  for (const f of FED) {
+    const pAll = sstep(f.t0, f.t0 + FED_DUR + LVL_STAGGER * NL, t);
+    for (const m of D[f.d]) { const base = m === M.glass ? 0.16 : 1; m.opacity = base * pAll; m.transparent = m === M.glass || pAll < 0.999; m.depthWrite = m !== M.glass; }
+    G[f.d].forEach((g, i) => {
+      const p = easeOut(clamp((t - f.t0 - i * LVL_STAGGER) / FED_DUR));
+      g.visible = p > 0.001; g.position.copy(f.off).multiplyScalar(1 - p);
+    });
+  }
+
+  // scan
+  let active = -1; for (let i = 0; i < NL; i++) if (t >= SCAN[i][0] && t < SCAN[i][1]) active = i;
+  if (active >= 0) {
+    const [a, b] = SCAN[active];
+    const amp = sstep(a, a + 0.25, t) * (1 - sstep(b - 0.25, b, t));
+    const y = yL(active) + 3.2;
+    scanBand.position.set(0, y, 0); scanFill.opacity = 0.05 * amp; scanBand.visible = true;
+    const sx = sweepXAt(active, t);
+    sweep.position.set(sx, y, 0); sweepMat.uniforms.uA.value = amp;
+    const amberNow = active === CLASH_L && t >= T_FIND && t < T_REROUTE1;
+    sweepMat.uniforms.uC.value.copy(amberNow ? AMBER : TBLUE);
+    sweep.visible = true;
+  } else { scanBand.visible = false; sweep.visible = false; }
+  edgeOutlines.forEach((l, i) => { const k = sstep(SCAN[i][1] - 0.2, SCAN[i][1] + 0.3, t); l.material.opacity = k * (0.25 + 0.55 * (1 - sstep(SCAN[i][1] + 0.4, SCAN[i][1] + 1.8, t))); l.visible = k > 0.001; });
+
+  // clash: amber pulse while found, reroute morph, then calm blue
+  const found = sstep(T_FIND, T_FIND + 0.3, t), resolved = sstep(T_REROUTE1, T_REROUTE1 + 0.6, t);
+  const pulse = 0.5 + 0.5 * Math.cos((t - T_FIND) * Math.PI * 2 / 0.9);
+  const amb = found * (1 - resolved);
+  amberLine.opacity = amb * (0.65 + 0.35 * pulse); amberLine.color.copy(AMBER).multiplyScalar(2.2);
+  amberFill.opacity = amb * (0.05 + 0.08 * pulse);
+  cbox.visible = cfill.visible = amb > 0.002;
+  const glow = amb * (0.35 + 0.45 * pulse);
+  M.chwC.emissive.copy(AMBER).multiplyScalar(glow * 0.9);
+  M.branchC.emissive.copy(AMBER).multiplyScalar(glow * 0.6);
+  // reroute geometry
+  const r = sstep(T_REROUTE0, T_REROUTE1, t);
+  const rq = Math.round(r * 120) / 120;
+  if (rq !== lastR) {
+    for (const c of chwTubes) { c.t.geometry.dispose(); c.t.geometry = new THREE.TubeGeometry(chwPath(c.zf, c.zs, rq), 240, R_CHW, 16, false); }
+    lastR = rq;
+  }
+  // brief blue "verified" glow on the rerouted pipes
+  const vg = sstep(T_REROUTE1, T_REROUTE1 + 0.3, t) * (1 - sstep(T_REROUTE1 + 0.6, T_REROUTE1 + 1.8, t));
+  if (vg > 0) M.chwC.emissive.copy(TBLUE).multiplyScalar(vg * 0.35);
+  dimMat.opacity = sstep(T_REROUTE1 - 0.1, T_REROUTE1 + 0.4, t) * (1 - sstep(15.6, 16.3, t));
+
+  // camera
+  const c = camAt(t); camera.position.copy(c.pos); camera.lookAt(c.target);
+  camera.filmOffset = -5.2; camera.updateProjectionMatrix();   // building sits right, negative space left
+  dome.position.copy(camera.position);
+
+  composer.render();
+  g2.drawImage(renderer.domElement, 0, 0);
+  typography(t);
+  return true;
+};
+window.grab = (q = 0.94) => out.toDataURL('image/jpeg', q);
+window.DURATION = DUR;
+await document.fonts.ready.catch(() => {});
+window.READY = true;
+
+if (!P.has('capture')) {
+  let t = +(P.get('t') || 0), last = performance.now(), paused = false;
+  addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { paused = !paused; e.preventDefault(); }
+    if (e.key === 'r' || e.key === 'R') t = 0;
+  });
+  const loop = (now) => {
+    const dt = Math.min(0.1, (now - last) / 1000); last = now;
+    if (!paused) { t += dt; if (t > DUR) t = 0; }
+    renderFrame(t); requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+</script></body></html>
